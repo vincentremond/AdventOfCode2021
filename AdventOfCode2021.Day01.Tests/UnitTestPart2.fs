@@ -24,7 +24,7 @@ let Test1 () =
 
 [<Test>]
 let Test2 () =
-    "UnitTestPart2.inputs.txt"
+    "inputs.txt"
     |> File.ReadAllLines
     |> Seq.map int
     |> Solution.calcPart2
