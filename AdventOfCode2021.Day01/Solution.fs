@@ -11,6 +11,4 @@ module Solution =
         inputs
         |> Seq.windowed 3
         |> Seq.map Seq.sum
-        |> Seq.pairwise
-        |> Seq.filter (fun (a, b) -> (b > a))
-        |> Seq.length
+        |> calc
