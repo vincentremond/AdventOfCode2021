@@ -5,9 +5,6 @@ open AdventOfCode2021.Day01
 open NUnit.Framework
 open FsUnit
 
-[<SetUp>]
-let Setup () = ()
-
 [<Test>]
 let Test1 () =
     Solution.calcPart2 [| 199

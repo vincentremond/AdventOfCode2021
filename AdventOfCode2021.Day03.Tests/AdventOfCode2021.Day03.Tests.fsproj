@@ -7,14 +7,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="UnitTestPart1.fs" />
-    <Compile Include="UnitTestPart2.fs" />
     <Content Include="inputs.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AdventOfCode2021.Common\AdventOfCode2021.Common.fsproj" />
-    <ProjectReference Include="..\AdventOfCode2021.Day02\AdventOfCode2021.Day02.fsproj" />
+    <ProjectReference Include="..\AdventOfCode2021.Day03\AdventOfCode2021.Day03.fsproj" />
   </ItemGroup>
   <Import Project="..\.paket\Paket.Restore.targets" />
 </Project>
