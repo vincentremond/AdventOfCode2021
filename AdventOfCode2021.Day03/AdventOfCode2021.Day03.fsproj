@@ -9,4 +9,8 @@
     <Compile Include="Solution.fs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AdventOfCode2021.Common\AdventOfCode2021.Common.fsproj" />
+  </ItemGroup>
+
 </Project>
