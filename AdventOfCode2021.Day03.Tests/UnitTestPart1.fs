@@ -21,12 +21,12 @@ let Test1 () =
 00010
 01010"
     |> String.splitLines
-    |> (Solution.getResult)
+    |> (Solution.getResultPart1)
     |> should equal 198
 
 [<Test>]
 let Test2 () =
     "inputs.txt"
     |> File.ReadAllLines
-    |> (Solution.getResult)
+    |> (Solution.getResultPart2)
     |> should equal 2583164
