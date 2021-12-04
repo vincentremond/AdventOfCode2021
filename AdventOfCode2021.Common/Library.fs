@@ -5,7 +5,8 @@ open System.Text.RegularExpressions
 [<RequireQualifiedAccess>]
 module String =
 
-    let splitLines s = Regex.Split(s, "[\r\n]+")
+    let splitLines (s:string) = s.Split("\r\n")
+    let split (c: char) (s: string) = s.Split(c)
 
 [<RequireQualifiedAccess>]
 module List =
@@ -24,3 +25,8 @@ module Option =
                 | _ -> None)
             list
             (Some [])
+
+
+[<RequireQualifiedAccess>]
+module Tuple =
+    let map f (a,b) = (f a, f b)
