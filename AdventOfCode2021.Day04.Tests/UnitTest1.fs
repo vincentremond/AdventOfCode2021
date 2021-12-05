@@ -1,4 +1,4 @@
-module AdventOfCode2021.Day04.Tests.Part2
+module AdventOfCode2021.Day04.Tests
 
 open System.IO
 open AdventOfCode2021.Common
