@@ -35,6 +35,6 @@ foreach ($pkg in @("NUnit", "NUnit3TestAdapter", "Microsoft.NET.Test.Sdk", "FsUn
 
 # TODO alchata
 
-"" | Out-File "$LibProject\inputs2.txt"
+"" | Out-File "$TstProjectFile\inputs.txt"
 # dotnet alchata fsproj --Include "inputs.txt" --Type Content --CopyToOutputDirectory PreserveNewest --Position -1
 # dotnet alchata fsproj --Exclude "Program.fs"
