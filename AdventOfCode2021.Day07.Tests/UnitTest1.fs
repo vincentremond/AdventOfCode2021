@@ -2,10 +2,9 @@ module AdventOfCode2021.Day06.Tests
 
 open System.IO
 open AdventOfCode2021.Common
-open AdventOfCode2021.Day07
 open AdventOfCode2021.Day07.Solution
 open NUnit.Framework
-open FsUnit
+open Swensen.Unquote
 
 let toIntList s =
     s |> String.split ',' |> Seq.map int |> Seq.toList
@@ -19,15 +18,9 @@ let getInputs () =
     |> toIntList
 
 let genericTest getSample calc expectedResult =
-    ()
-    |> getSample
-    |> calc
-    |> should equal expectedResult
+    test <@ () |> getSample |> calc = expectedResult @>
 
-
-
-let cheapest arr =
-    arr |> Array.sort |> Array.head
+let cheapest arr = arr |> Array.sort |> Array.head
 
 [<Test>]
 let ``1.1 Test part1 with sample`` () =

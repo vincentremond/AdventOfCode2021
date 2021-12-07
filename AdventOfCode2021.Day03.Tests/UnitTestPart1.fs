@@ -4,11 +4,12 @@ open System.IO
 open AdventOfCode2021.Common
 open AdventOfCode2021.Day03
 open NUnit.Framework
-open FsUnit
+open Swensen.Unquote
 
 [<Test>]
 let Test1 () =
-    "00100
+    test
+        <@ "00100
 11110
 10110
 10111
@@ -20,13 +21,12 @@ let Test1 () =
 11001
 00010
 01010"
-    |> String.splitLines
-    |> (Solution.getResultPart1)
-    |> should equal 198
+           |> String.splitLines
+           |> (Solution.getResultPart1) = 198 @>
 
 [<Test>]
 let Test2 () =
-    "inputs.txt"
-    |> File.ReadAllLines
-    |> (Solution.getResultPart2)
-    |> should equal 2784375
+    test
+        <@ "inputs.txt"
+           |> File.ReadAllLines
+           |> (Solution.getResultPart2) = 2784375 @>

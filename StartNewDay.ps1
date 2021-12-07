@@ -28,7 +28,7 @@ Exec "dotnet add $LibProjectFile reference $CommonProject"
 Exec "dotnet add $TstProjectFile reference $LibProjectFile"
 Exec "dotnet add $TstProjectFile reference $CommonProject"
 
-foreach ($pkg in @("NUnit", "NUnit3TestAdapter", "Microsoft.NET.Test.Sdk", "FsUnit", "coverlet.collector")) {
+foreach ($pkg in @("NUnit", "NUnit3TestAdapter", "Microsoft.NET.Test.Sdk", "Unquote", "coverlet.collector")) {
     Exec "dotnet remove $TstProjectFile package $pkg"
     Exec "dotnet paket add $pkg --project $TstProjectFile"
 }

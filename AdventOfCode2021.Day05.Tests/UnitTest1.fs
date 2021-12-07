@@ -4,7 +4,7 @@ open System.IO
 open AdventOfCode2021.Common
 open AdventOfCode2021.Day05
 open NUnit.Framework
-open FsUnit
+open Swensen.Unquote
 
 [<Test>]
 let Test1 () =
@@ -26,11 +26,9 @@ let Test1 () =
     let inputs =
         "inputs.txt" |> File.ReadAllLines |> Array.toList
 
-    [
-        sample, Solution.part1, 5
-        sample, Solution.part2, 12
-        
-        inputs, Solution.part1, 8622
-        inputs, Solution.part2, 22037
-    ]
-    |> Seq.iter (fun (data, f, result) -> f data |> should equal result)
+    [ sample, Solution.part1, 5
+      sample, Solution.part2, 12
+
+      inputs, Solution.part1, 8622
+      inputs, Solution.part2, 22037 ]
+    |> Seq.iter (fun (data, f, result) -> test <@ (f data) = result @>)

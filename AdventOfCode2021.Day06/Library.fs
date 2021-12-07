@@ -22,9 +22,7 @@ module Solution =
 
     let toArray fishesAge =
         let fishesCountByAge =
-            fishesAge
-            |> Seq.countBy64 id
-            |> Map.ofSeq
+            fishesAge |> Seq.countBy64 id |> Map.ofSeq
 
         [| for age in 0 .. 1 .. 8 ->
                fishesCountByAge

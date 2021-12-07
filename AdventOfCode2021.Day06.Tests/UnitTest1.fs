@@ -4,8 +4,7 @@ open System.IO
 open AdventOfCode2021.Common
 open AdventOfCode2021.Day06
 open NUnit.Framework
-open FsUnit
-
+open Swensen.Unquote
 
 let getSample () =
     "3,4,3,1,2" |> String.splitLines |> Array.toList
@@ -14,10 +13,7 @@ let getInputs () =
     "inputs.txt" |> File.ReadAllLines |> Array.toList
 
 let genericTest getSample calc days expectedResult =
-    ()
-    |> getSample
-    |> calc days
-    |> should equal expectedResult
+    test <@ () |> getSample |> calc days = expectedResult @>
 
 [<Test>]
 let ``1.1 Test part1 with sample`` () =

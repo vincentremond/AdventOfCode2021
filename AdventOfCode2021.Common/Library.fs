@@ -1,6 +1,5 @@
 ﻿namespace AdventOfCode2021.Common
 
-open System.Text.RegularExpressions
 
 [<RequireQualifiedAccess>]
 module String =
