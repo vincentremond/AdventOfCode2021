@@ -33,6 +33,13 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AdventOfCode2021.Day07", "A
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "AdventOfCode2021.Day07.Tests", "AdventOfCode2021.Day07.Tests\AdventOfCode2021.Day07.Tests.fsproj", "{2CF7EEAA-604F-45FC-942E-A80B0A02EE20}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{AE7B21BE-CD9C-4D54-917A-19BA051E50E7}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+		paket.lock = paket.lock
+		StartNewDay.ps1 = StartNewDay.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

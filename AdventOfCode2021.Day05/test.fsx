@@ -48,18 +48,17 @@ let inc = (1, -1)
 
 
 module Tuple =
-    let map2 f a b =
-        (f (fst a) (fst b), f (snd a) (snd b))
+    let map2 f a b = (f (fst a) (fst b), f (snd a) (snd b))
 
 
 let generator2 state =
     let stateA, stateB = state
+
     match Tuple.map2 (>) state max with
     | true, true -> None
-    | false, false -> 
+    | false, false ->
         let next = Tuple.map2 (+) state inc
         Some(state, next)
     | _ -> failwith "Invalid operation"
 
 List.unfold generator2 start
-
