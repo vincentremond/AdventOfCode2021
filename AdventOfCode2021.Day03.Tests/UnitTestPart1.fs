@@ -29,4 +29,4 @@ let Test2 () =
     "inputs.txt"
     |> File.ReadAllLines
     |> (Solution.getResultPart2)
-    |> should equal 2583164
+    |> should equal 2784375
