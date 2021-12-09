@@ -37,13 +37,9 @@ let ``1.2 Test part1 with inputs`` () =
     genericTest (getInputs ()) Solution.part1 445
 
 [<Test>]
-let Test21 () =
-    let data = getSample ()
-    let part2 = Solution.part2 data
-    Assert.AreEqual(61229, part2)
+let ``2.1 Test part1 with sample`` () =
+    genericTest (getSample ()) Solution.part2 61229
 
 [<Test>]
-let Test22 () =
-    let data = getInputs ()
-    let part2 = Solution.part2 data
-    Assert.AreEqual(61229, part2)
+let ``2.2 Test part1 with inputs`` () =
+    genericTest (getInputs ()) Solution.part2 1043101
