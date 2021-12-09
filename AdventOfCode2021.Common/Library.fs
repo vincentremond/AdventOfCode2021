@@ -9,6 +9,7 @@ module String =
     let isNullOrEmpty = String.IsNullOrEmpty
     let notNullOrEmpty s = not <| isNullOrEmpty s
     let ofList (c: char list) : string = String(c |> List.toArray)
+    let ofSeq (c: char seq) : string = String(c |> Seq.toArray)
 
 [<RequireQualifiedAccess>]
 module Option =
@@ -99,3 +100,9 @@ module Array =
         let nArr = Array.copy arr
         nArr.[idx] <- value
         nArr
+
+[<RequireQualifiedAccess>]
+module Map =
+    let findI m i = Map.find i m
+    let tryFindI m i =
+        Map.tryFind i m
