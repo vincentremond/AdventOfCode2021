@@ -1,4 +1,4 @@
-module AdventOfCode2021.Day01.Tests.Part1
+module AdventOfCode2021.Common.Tests
 
 open AdventOfCode2021.Common
 open NUnit.Framework
