@@ -1,6 +1,7 @@
 ﻿namespace AdventOfCode2021.Common
 
 open System
+open Microsoft.FSharp.Core
 
 [<RequireQualifiedAccess>]
 module String =
@@ -21,6 +22,11 @@ module Option =
                 | _ -> None)
             list
             (Some [])
+
+    let unfold (a: 'a option, b: 'b option) : ('a * 'b) option =
+        match a, b with
+        | Some a, Some b -> Some(a, b)
+        | _ -> None
 
 [<RequireQualifiedAccess>]
 module Tuple =
@@ -69,7 +75,9 @@ module List =
             | [] -> [ [ e ] ]
             | x :: xs' as xs ->
                 (e :: xs)
-                :: [ for xs in distribute e xs' -> x :: xs ]
+                :: [
+                    for xs in distribute e xs' -> x :: xs
+                ]
 
         let rec permute =
             function
@@ -99,9 +107,14 @@ module Array =
         nArr.[idx] <- value
         nArr
 
+
 [<RequireQualifiedAccess>]
 module Map =
     let findI m i = Map.find i m
     let tryFindI m i = Map.tryFind i m
 
     let addByKey map value key = Map.add key value map
+
+[<RequireQualifiedAccess>]
+module Tool =
+    let intersect s1 e1 s2 e2 : bool = (s1 <= e2) && (e1 >= s2)
