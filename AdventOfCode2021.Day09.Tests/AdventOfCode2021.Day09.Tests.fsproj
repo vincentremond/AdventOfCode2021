@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <GenerateProgramFile>false</GenerateProgramFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AdventOfCode2021.Day09\AdventOfCode2021.Day09.fsproj" />
+    <ProjectReference Include="..\AdventOfCode2021.Common\AdventOfCode2021.Common.fsproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="UnitTest1.fs" />
+    <Content Include="inputs.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="..\.paket\Paket.Restore.targets" />
+</Project>
