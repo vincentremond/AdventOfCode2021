@@ -1,105 +1,84 @@
 ﻿namespace AdventOfCode2021.Day10
 
 open AdventOfCode2021.Common
+open Microsoft.FSharp.Core
 
 module Solution =
 
-    let part1 (lines: string array) =
+    let none _ = None
 
-        let starters =
-            [ '(', ')'
-              '[', ']'
-              '{', '}'
-              '<', '>' ]
-            |> Map.ofList
+    let calculateScoreForInvalid =
+        function
+        | ')' -> Some 3
+        | ']' -> Some 57
+        | '}' -> Some 1197
+        | '>' -> Some 25137
+        | _ -> None
 
-        let scores =
-            [ ')', 3
-              ']', 57
-              '}', 1197
-              '>', 25137 ]
-            |> Map.ofList
+    let calculateScoreForMissing stack =
+        let rec calculateScoreForMissing' stack score =
+            match stack with
+            | c :: others ->
+                let newScore =
+                    score * 5L
+                    + match c with
+                      | '(' -> 1L
+                      | '[' -> 2L
+                      | '{' -> 3L
+                      | '<' -> 4L
+                      | _ -> failwith $"Invalid char %A{c}"
 
-        let rec findFirstIllegalChar starts chars =
-            match chars with
-            | c :: otherChars ->
-                match Map.tryFind c starters with
-                | Some _ -> findFirstIllegalChar (c :: starts) otherChars
-                | None ->
-                    match starts with
-                    | start :: otherStarts ->
-                        let ending = Map.find start starters
+                calculateScoreForMissing' others newScore
+            | [] -> Some score
 
-                        if ending = c then
-                            findFirstIllegalChar otherStarts otherChars
-                        else
-                            Some c
-                    | [] -> None
-            | [] -> None
+        calculateScoreForMissing' stack 0L
 
-        lines
-        |> Array.choose (List.ofSeq >> (findFirstIllegalChar []))
-        |> Array.map (Map.findI scores)
-        |> Array.sum
+    let medianValue values =
+        let index = Array.length values / 2
+        let sorted = values |> Array.sort
+        sorted.[index]
 
-    let part2 (lines: string array) =
+    let genericCalc calculateScoreForUnmatched calculateScoreForInvalid resultCalc (lines: string array) =
 
-        let starters =
-            [ '(', ')'
-              '[', ']'
-              '{', '}'
-              '<', '>' ]
-            |> Map.ofList
+        let isStarter =
+            function
+            | '('
+            | '['
+            | '{'
+            | '<' -> true
+            | _ -> false
 
-        let scores =
-            [ ')', 3
-              ']', 57
-              '}', 1197
-              '>', 25137 ]
-            |> Map.ofList
-
-        let calculateScoreForMissing stack =
-            let rec calculateScoreForMissing' stack score =
-                match stack with
-                | c :: others ->
-                    let newScore =
-                        score * 5L
-                        + match c with
-                          | '(' -> 1L
-                          | '[' -> 2L
-                          | '{' -> 3L
-                          | '<' -> 4L
-                          | _ -> failwith $"Invalid char %A{c}"
-
-                    calculateScoreForMissing' others newScore
-                | [] -> Some score
-
-            calculateScoreForMissing' stack 0L
-
-        let calculateScoreForInvalid _ = None
+        let getEnding =
+            function
+            | '(' -> Some ')'
+            | '[' -> Some ']'
+            | '{' -> Some '}'
+            | '<' -> Some '>'
+            | _ -> None
 
         let rec findFirstIllegalChar starts chars =
             match chars with
             | c :: otherChars ->
-                match Map.tryFind c starters with
-                | Some _ -> findFirstIllegalChar (c :: starts) otherChars
-                | None ->
+                match isStarter c with
+                | true -> findFirstIllegalChar (c :: starts) otherChars
+                | false ->
                     match starts with
                     | start :: otherStarts ->
-                        let ending = Map.find start starters
+                        let ending = getEnding start |> Option.get
 
                         if ending = c then
                             findFirstIllegalChar otherStarts otherChars
                         else
                             calculateScoreForInvalid c
                     | [] -> failwith "Err"
-            | [] -> calculateScoreForMissing starts
-
-        let getMedian values =
-            let index = Array.length values / 2
-            let sorted = values |> Array.sort
-            sorted.[index]
+            | [] -> calculateScoreForUnmatched starts
 
         lines
         |> Array.choose (List.ofSeq >> (findFirstIllegalChar []))
-        |> getMedian
+        |> resultCalc
+
+    let part1 =
+        genericCalc none calculateScoreForInvalid Array.sum
+
+    let part2 =
+        genericCalc calculateScoreForMissing none medianValue
