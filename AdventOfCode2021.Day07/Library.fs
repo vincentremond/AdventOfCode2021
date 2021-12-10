@@ -18,11 +18,10 @@ module Solution =
 
     let costAsPos countBy burnCalculator targetPosition =
         countBy
-        |> Seq.map
-            (fun (currentPosition, population) ->
-                ((burnCalculator currentPosition targetPosition)
-                 * population)
-                |> abs)
+        |> Seq.map (fun (currentPosition, population) ->
+            ((burnCalculator currentPosition targetPosition)
+             * population)
+            |> abs)
         |> Seq.sum
 
     let calc burnCalculator (resultPicker: int [] -> int) (input: int list) =

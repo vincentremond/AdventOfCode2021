@@ -42,8 +42,8 @@ module Solution =
         | Up x -> { s with Aim = s.Aim - x }
         | Forward x ->
             { s with
-                  Horizontal = s.Horizontal + x
-                  Vertical = s.Vertical + (s.Aim * x) }
+                Horizontal = s.Horizontal + x
+                Vertical = s.Vertical + (s.Aim * x) }
 
     let getResult folder (data: string seq) =
         data

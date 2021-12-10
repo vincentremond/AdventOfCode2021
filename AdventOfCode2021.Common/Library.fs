@@ -75,9 +75,7 @@ module List =
             | [] -> [ [ e ] ]
             | x :: xs' as xs ->
                 (e :: xs)
-                :: [
-                    for xs in distribute e xs' -> x :: xs
-                ]
+                :: [ for xs in distribute e xs' -> x :: xs ]
 
         let rec permute =
             function

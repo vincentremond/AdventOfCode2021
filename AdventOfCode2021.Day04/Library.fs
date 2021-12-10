@@ -50,10 +50,9 @@ module Solution =
         let mapNumbers rawGrid (numbers: (int * int) []) : RowToWin =
             let numbers =
                 numbers
-                |> Seq.map
-                    (fun (x, y) ->
-                        let value = rawGrid |> List.item x |> List.item y
-                        drawnNumbers |> Map.find value)
+                |> Seq.map (fun (x, y) ->
+                    let value = rawGrid |> List.item x |> List.item y
+                    drawnNumbers |> Map.find value)
                 |> Seq.toList
 
             let max =
@@ -97,25 +96,22 @@ module Solution =
             drawnNumbersAsText
             |> String.split ','
             |> Array.map int
-            |> Array.mapi
-                (fun index drawnNumber ->
-                    (drawnNumber,
-                     { Position = index
-                       Value = drawnNumber }))
+            |> Array.mapi (fun index drawnNumber ->
+                (drawnNumber,
+                 { Position = index
+                   Value = drawnNumber }))
             |> Map.ofSeq
 
         allGrids
         |> List.chunkBySize 6
         |> List.map (List.skip 1)
-        |> List.map
-            (fun grid ->
-                grid
-                |> List.map
-                    (fun line ->
-                        line
-                        |> Seq.chunkBySize 3
-                        |> Seq.map (fun chars -> new string (chars) |> int)
-                        |> Seq.toList))
+        |> List.map (fun grid ->
+            grid
+            |> List.map (fun line ->
+                line
+                |> Seq.chunkBySize 3
+                |> Seq.map (fun chars -> new string (chars) |> int)
+                |> Seq.toList))
         |> (mapGrids drawnNumbers)
 
     type UpdateGridResult =

@@ -19,7 +19,9 @@ module Solution =
         | _ -> false
 
     let horizontalOrVerticalOrDiagonal line =
-        match Tuple.map2 (-) line.Start line.End |> Tuple.map abs with
+        match Tuple.map2 (-) line.Start line.End
+              |> Tuple.map abs
+            with
         | _, 0 -> true
         | 0, _ -> true
         | diffX, diffY -> diffX = diffY
@@ -53,14 +55,13 @@ module Solution =
         let lines =
             input
             |> Seq.map (LineParser().TypedMatch)
-            |> Seq.map
-                (fun regexMatch ->
-                    { Start =
-                          (regexMatch.X1.Value, regexMatch.Y1.Value)
-                          |> Tuple.map int
-                      End =
-                          (regexMatch.X2.Value, regexMatch.Y2.Value)
-                          |> Tuple.map int })
+            |> Seq.map (fun regexMatch ->
+                { Start =
+                    (regexMatch.X1.Value, regexMatch.Y1.Value)
+                    |> Tuple.map int
+                  End =
+                    (regexMatch.X2.Value, regexMatch.Y2.Value)
+                    |> Tuple.map int })
             |> Seq.filter lineFilter
             |> Seq.toList
 

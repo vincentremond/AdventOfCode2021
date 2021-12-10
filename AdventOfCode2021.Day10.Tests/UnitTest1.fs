@@ -1,18 +1,23 @@
-module AdventOfCode2021.Day09.Tests
+module AdventOfCode2021.Day06.Tests
 
 open System.IO
 open AdventOfCode2021.Common
-open AdventOfCode2021.Day09
+open AdventOfCode2021.Day10
 open NUnit.Framework
 open Swensen.Unquote
 
 let getSample () =
     "
-2199943210
-3987894921
-9856789892
-8767896789
-9899965678
+[({(<(())[]>[[{[]{<()<>>
+[(()[<>])]({[<{<<[]>>(
+{([(<{}[<>[]}>{[]{[(<()>
+(((({<>}<{<{<>}{[]{[]{}
+[[<[([]))<([[{}[[()]]]
+[{[{({}]{}}([{[{{{}}([]
+{<[[]]>}<{[{[{[]{()[[[]
+[<(<(<(<{}))><([]([]()
+<{([([[(<>()){}]>(<<{{
+<{([{{}}[<[[[<>{}]]]>[]]
 "
     |> String.splitLines
     |> Array.filter String.notNullOrEmpty
@@ -25,16 +30,16 @@ let cheapest arr = arr |> Array.sort |> Array.head
 
 [<Test>]
 let ``1-1 Test part1 with sample`` () =
-    genericTest (getSample ()) Solution.part1 15
+    genericTest (getSample ()) Solution.part1 26397
 
 [<Test>]
 let ``1-2 Test part1 with inputs`` () =
-    genericTest (getInputs ()) Solution.part1 600
+    genericTest (getInputs ()) Solution.part1 268845
 
 [<Test>]
 let ``2-1 Test part1 with sample`` () =
-    genericTest (getSample ()) Solution.part2 1134
+    genericTest (getSample ()) Solution.part2 288957L
 
 [<Test>]
 let ``2-2 Test part1 with inputs`` () =
-    genericTest (getInputs ()) Solution.part2 689038
+    genericTest (getInputs ()) Solution.part2 4038824534L

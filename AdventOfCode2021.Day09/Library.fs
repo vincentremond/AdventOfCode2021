@@ -34,30 +34,27 @@ module Solution =
 
 
         data
-        |> Seq.mapi
-            (fun y row ->
-                let maxIndices = (Array.length data, Array.length row)
+        |> Seq.mapi (fun y row ->
+            let maxIndices = (Array.length data, Array.length row)
 
-                row
-                |> Seq.mapi
-                    (fun x value ->
-                        let currentPosition = (y, x)
+            row
+            |> Seq.mapi (fun x value ->
+                let currentPosition = (y, x)
 
-                        let isDeeperThanNeighbours =
-                            neighborsLocation
-                            |> Seq.map
-                                (fun neighborDirection ->
-                                    neighborDirection
-                                    |> Tuple.map2 (+) currentPosition
-                                    |> Tuple.map2 validateIndex maxIndices
-                                    |> Option.unfold)
-                            |> Seq.choose id
-                            |> Seq.forall (fun (y, x) -> data.[y].[x] > value)
+                let isDeeperThanNeighbours =
+                    neighborsLocation
+                    |> Seq.map (fun neighborDirection ->
+                        neighborDirection
+                        |> Tuple.map2 (+) currentPosition
+                        |> Tuple.map2 validateIndex maxIndices
+                        |> Option.unfold)
+                    |> Seq.choose id
+                    |> Seq.forall (fun (y, x) -> data.[y].[x] > value)
 
-                        if isDeeperThanNeighbours then
-                            Some(currentPosition, (value + 1))
-                        else
-                            None))
+                if isDeeperThanNeighbours then
+                    Some(currentPosition, (value + 1))
+                else
+                    None))
         |> Seq.concat
         |> Seq.choose id
         |> Seq.map snd
@@ -169,17 +166,16 @@ module Solution =
 
             product' 1 values
 
-        let int32s = 
+        let int32s =
             reExplore (basinsPerRow |> Seq.concat |> Seq.toList) Map.empty 0
             |> Map.toSeq
             |> Seq.groupBy snd
-            |> Seq.map
-                (fun (basinId, basins) ->
-                    basins
-                    |> Seq.map (fun ((r, s, l), i) -> l)
-                    |> Seq.sum)
+            |> Seq.map (fun (basinId, basins) ->
+                basins
+                |> Seq.map (fun ((r, s, l), i) -> l)
+                |> Seq.sum)
             |> Seq.sortDescending
             |> Seq.take 3
             |> Seq.toList
-        int32s
-        |> product
+
+        int32s |> product
