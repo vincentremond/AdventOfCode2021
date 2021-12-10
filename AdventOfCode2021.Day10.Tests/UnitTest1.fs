@@ -1,4 +1,4 @@
-module AdventOfCode2021.Day06.Tests
+module AdventOfCode2021.Day10.Tests
 
 open System.IO
 open AdventOfCode2021.Common
@@ -7,7 +7,7 @@ open NUnit.Framework
 open Swensen.Unquote
 
 let getSample () =
-    "
+    "<
 [({(<(())[]>[[{[]{<()<>>
 [(()[<>])]({[<{<<[]>>(
 {([(<{}[<>[]}>{[]{[(<()>
@@ -25,8 +25,6 @@ let getSample () =
 let getInputs () = "inputs.txt" |> File.ReadAllLines
 
 let genericTest sample calc expectedResult = test <@ calc sample = expectedResult @>
-
-let cheapest arr = arr |> Array.sort |> Array.head
 
 [<Test>]
 let ``1-1 Test part1 with sample`` () =

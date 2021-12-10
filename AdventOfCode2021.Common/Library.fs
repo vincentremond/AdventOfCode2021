@@ -42,6 +42,7 @@ module Tuple =
     let unfold f1 f2 a = (f1 a, f2 a)
     let mk a b = (a, b)
     let mk3 a b c = (a, b, c)
+    let ``and`` (a,b) = a && b 
 
 [<RequireQualifiedAccess>]
 module Seq =

@@ -21,8 +21,6 @@ let getInputs () = "inputs.txt" |> File.ReadAllLines
 
 let genericTest sample calc expectedResult = test <@ calc sample = expectedResult @>
 
-let cheapest arr = arr |> Array.sort |> Array.head
-
 [<Test>]
 let ``1-1 Test part1 with sample`` () =
     genericTest (getSample ()) Solution.part1 15
@@ -33,8 +31,8 @@ let ``1-2 Test part1 with inputs`` () =
 
 [<Test>]
 let ``2-1 Test part1 with sample`` () =
-    genericTest (getSample ()) Solution.part2 1134
+    genericTest (getSample ()) Part2.part2 1134
 
 [<Test>]
 let ``2-2 Test part1 with inputs`` () =
-    genericTest (getInputs ()) Solution.part2 689038
+    genericTest (getInputs ()) Part2.part2 987840
