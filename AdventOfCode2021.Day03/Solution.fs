@@ -6,15 +6,13 @@ module Solution =
     let getResultPart1 (inputs: string seq) =
         let data =
             inputs
-            |> Seq.map
-                (fun line ->
-                    line
-                    |> Seq.map
-                        (fun c ->
-                            match c with
-                            | '0' -> -1
-                            | '1' -> 1
-                            | c -> failwith $"Invalid char {c}"))
+            |> Seq.map (fun line ->
+                line
+                |> Seq.map (fun c ->
+                    match c with
+                    | '0' -> -1
+                    | '1' -> 1
+                    | c -> failwith $"Invalid char {c}"))
             |> Seq.transpose
             |> Seq.map Seq.sum
             |> Seq.rev
@@ -36,16 +34,14 @@ module Solution =
 
         let data =
             inputs
-            |> Seq.map
-                (fun line ->
-                    line
-                    |> Seq.map
-                        (fun c ->
-                            match c with
-                            | '0' -> -1
-                            | '1' -> 1
-                            | c -> failwith $"Invalid char {c}")
-                    |> Seq.toList)
+            |> Seq.map (fun line ->
+                line
+                |> Seq.map (fun c ->
+                    match c with
+                    | '0' -> -1
+                    | '1' -> 1
+                    | c -> failwith $"Invalid char {c}")
+                |> Seq.toList)
             |> Seq.toList
 
         let rec calc result (d: int list list) operator =
