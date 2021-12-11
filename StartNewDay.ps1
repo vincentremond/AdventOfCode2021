@@ -1,4 +1,6 @@
-﻿$Day = (Get-Date).Day.ToString("00")
+﻿dotnet tool restore
+
+$Day = (Get-Date).Day.ToString("00")
 
 $LibProject = "AdventOfCode2021.Day$($Day)"
 $TstProject = "AdventOfCode2021.Day$($Day).Tests"

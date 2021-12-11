@@ -11,6 +11,8 @@ module String =
     let notNullOrEmpty s = not <| isNullOrEmpty s
     let ofList (c: char list) : string = String(c |> List.toArray)
     let ofSeq (c: char seq) : string = String(c |> Seq.toArray)
+    let trim (s: string) = s.Trim()
+    let join (separator:string) (lines:string seq) = String.Join(separator, lines)
 
 [<RequireQualifiedAccess>]
 module Option =
@@ -32,12 +34,12 @@ module Option =
 module Tuple =
     let map f (a, b) = (f a, f b)
     let map2 f (a1, a2) (b1, b2) = ((f a1 b1), (f a2 b2))
+    let map3 f (a1, a2) (b1, b2) (c1, c2) = ((f a1 b1 c1), (f a2 b2 c2))
     let mapSnd f (a, b) = (a, f b)
     let apply f (a1, a2) = ((f a1), (f a2))
     let fold f (a, b) = f a b
     let apply2 (f1, f2) (a1, a2) (b1, b2) = ((f1 a1 b1), (f2 a2 b2))
     let transpose ((a1, a2), (b1, b2)) = ((a1, b1), (a2, b2))
-    let map3 f (a1, a2) (b1, b2) (c1, c2) = ((f a1 b1 c1), (f a2 b2 c2))
     let rev (a, b) = (b, a)
     let unfold f1 f2 a = (f1 a, f2 a)
     let mk a b = (a, b)
@@ -114,6 +116,9 @@ module Map =
 
     let addByKey map value key = Map.add key value map
 
-[<RequireQualifiedAccess>]
+[<AutoOpen>]
 module Tool =
-    let intersect s1 e1 s2 e2 : bool = (s1 <= e2) && (e1 >= s2)
+    let intersect (start1, end1) (start2, end2) : bool = (start1 <= end2) && (end1 >= start2)
+    let ctoi (c:char) = (c |> int) - ('0' |> int)
+    let itoc (i:int) = (i + ('0' |> int)) |> char
+    let noop = ()
