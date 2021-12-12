@@ -1,0 +1,12 @@
+﻿graph G {
+  start -- kj;
+  start -- dc;
+  start -- HN;
+  dc -- end;
+  dc -- HN;
+  LN -- dc;
+  kj -- sa;
+  kj -- HN;
+  kj -- dc;
+  HN -- end;
+}
