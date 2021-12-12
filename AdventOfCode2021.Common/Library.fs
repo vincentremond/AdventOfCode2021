@@ -12,7 +12,7 @@ module String =
     let ofList (c: char list) : string = String(c |> List.toArray)
     let ofSeq (c: char seq) : string = String(c |> Seq.toArray)
     let trim (s: string) = s.Trim()
-    let join (separator:string) (lines:string seq) = String.Join(separator, lines)
+    let join (separator: string) (lines: string seq) = String.Join(separator, lines)
 
 [<RequireQualifiedAccess>]
 module Option =
@@ -44,7 +44,7 @@ module Tuple =
     let unfold f1 f2 a = (f1 a, f2 a)
     let mk a b = (a, b)
     let mk3 a b c = (a, b, c)
-    let ``and`` (a,b) = a && b 
+    let ``and`` (a, b) = a && b
 
 [<RequireQualifiedAccess>]
 module Seq =
@@ -62,6 +62,16 @@ module Seq =
 
     let count f s = s |> Seq.filter f |> Seq.length
 
+    let groupByMap groupBy map seq =
+        seq
+        |> Seq.groupBy groupBy
+        |> Seq.map (Tuple.mapSnd map)
+
+    let groupByFst seq =
+        seq
+        |> Seq.groupBy fst
+        |> Seq.map (fun (a, b) -> (a, b |> Seq.map snd))
+
 [<RequireQualifiedAccess>]
 module List =
     let tryPop l =
@@ -78,7 +88,9 @@ module List =
             | [] -> [ [ e ] ]
             | x :: xs' as xs ->
                 (e :: xs)
-                :: [ for xs in distribute e xs' -> x :: xs ]
+                :: [
+                    for xs in distribute e xs' -> x :: xs
+                ]
 
         let rec permute =
             function
@@ -108,6 +120,11 @@ module Array =
         nArr.[idx] <- value
         nArr
 
+    let groupByFst arr =
+        arr
+        |> Array.groupBy fst
+        |> Array.map (fun (a, b) -> (a, b |> Array.map snd))
+
 
 [<RequireQualifiedAccess>]
 module Map =
@@ -119,6 +136,6 @@ module Map =
 [<AutoOpen>]
 module Tool =
     let intersect (start1, end1) (start2, end2) : bool = (start1 <= end2) && (end1 >= start2)
-    let ctoi (c:char) = (c |> int) - ('0' |> int)
-    let itoc (i:int) = (i + ('0' |> int)) |> char
+    let ctoi (c: char) = (c |> int) - ('0' |> int)
+    let itoc (i: int) = (i + ('0' |> int)) |> char
     let noop = ()

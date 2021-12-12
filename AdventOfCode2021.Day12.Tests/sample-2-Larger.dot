@@ -1,0 +1,20 @@
+﻿graph G {
+  start -- RW;
+  start -- DX;
+  start -- pj;
+  he -- DX;
+  fs -- he;
+  pj -- DX;
+  zg -- sl;
+  zg -- pj;
+  pj -- he;
+  RW -- he;
+  fs -- DX;
+  pj -- RW;
+  zg -- RW;
+  he -- WI;
+  zg -- he;
+  pj -- fs;
+  zg -- end;
+  fs -- end;
+}
