@@ -48,6 +48,8 @@ addFile
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors>25</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include=\"Solution.fs\" />
@@ -84,6 +86,8 @@ addFile
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarningsAsErrors>25</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include=\"..\\AdventOfCode2021.Common\\AdventOfCode2021.Common.fsproj\" />
@@ -133,12 +137,15 @@ let getInputs () = \"inputs.txt\" |> File.ReadAllLines
 [<Test>]
 let ``1-1 Test part1 with sample`` () = (-1 , (Solution.part1 (getSample ()))) |> Assert.AreEqual
 [<Test>]
-let ``1-1 Test part1 with inputs`` () = (-1 , (Solution.part1 (getInputs ()))) |> Assert.AreEqual
+let ``1-2 Test part1 with inputs`` () = (-1 , (Solution.part1 (getInputs ()))) |> Assert.AreEqual
 
 [<Test>]
 let ``2-1 Test part1 with sample`` () = (-1 , (Solution.part2 (getSample ()))) |> Assert.AreEqual
 [<Test>]
 let ``2-2 Test part1 with inputs`` () = (-1 , (Solution.part2 (getInputs ()))) |> Assert.AreEqual
+
+[<EntryPoint>]
+let main _ = 0
 "
 
 addFile @"AdventOfCode2021.Day{{{day}}}.Tests\inputs.txt" "TODO"

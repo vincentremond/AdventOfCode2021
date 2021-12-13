@@ -1,6 +1,7 @@
 ﻿namespace AdventOfCode2021.Common
 
 open System
+open System.Text.RegularExpressions
 open Microsoft.FSharp.Core
 
 [<RequireQualifiedAccess>]
@@ -13,6 +14,7 @@ module String =
     let ofSeq (c: char seq) : string = String(c |> Seq.toArray)
     let trim (s: string) = s.Trim()
     let join (separator: string) (lines: string seq) = String.Join(separator, lines)
+    let empty = String.Empty
 
 [<RequireQualifiedAccess>]
 module Option =
@@ -139,3 +141,13 @@ module Tool =
     let ctoi (c: char) = (c |> int) - ('0' |> int)
     let itoc (i: int) = (i + ('0' |> int)) |> char
     let noop = ()
+
+[<AutoOpen>]
+module ActivePatterns =
+    let (|IsMatch|_|) pattern input =
+        let m = Regex.Match(input, pattern)
+
+        if m.Success then
+            Some m
+        else
+            None
