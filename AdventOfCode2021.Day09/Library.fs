@@ -97,7 +97,7 @@ module Solution =
 
         let associateNeighbourBasins (row1: Basin list, row2: Basin list) =
             List.allPairs row1 row2
-            |> List.filter (fun ((r1, s1, l1), (r2, s2, l2)) -> Tool.intersect s1 (s1 + l1 - 1) s2 (s2 + l2 - 1))
+            |> List.filter (fun ((r1, s1, l1), (r2, s2, l2)) -> Tool.intersect (s1, (s1 + l1 - 1)) (s2, (s2 + l2 - 1)))
 
         //            for basin1 in row1 do
 //                let (r1, s1, l1) = basin1
