@@ -36,11 +36,45 @@ fold along x=5
 let getInputs () = "inputs.txt" |> File.ReadAllLines
 
 [<Test>]
-let ``1-1 Test part1 with sample`` () = (-1 , (Solution.part1 (getSample ()))) |> Assert.AreEqual
-[<Test>]
-let ``1-1 Test part1 with inputs`` () = (-1 , (Solution.part1 (getInputs ()))) |> Assert.AreEqual
+let ``1-1 Test part1 with sample`` () =
+    (17, (Solution.part1 (getSample ())))
+    |> Assert.AreEqual
 
 [<Test>]
-let ``2-1 Test part1 with sample`` () = (-1 , (Solution.part2 (getSample ()))) |> Assert.AreEqual
+let ``1-2 Test part1 with inputs`` () =
+    (802, (Solution.part1 (getInputs ())))
+    |> Assert.AreEqual
+
 [<Test>]
-let ``2-2 Test part1 with inputs`` () = (-1 , (Solution.part2 (getInputs ()))) |> Assert.AreEqual
+let ``2-1 Test part1 with sample`` () =
+    ("
+██████████
+██······██
+██······██
+██······██
+██████████",
+     (Solution.part2 (getSample ())))
+    |> Assert.AreEqual
+
+[<Test>]
+let ``2-2 Test part1 with inputs`` () =
+    ("
+██████····██····██··██····██··████████··████████····████····██····██··██████··
+██····██··██··██····██····██··██··············██··██····██··██····██··██····██
+██····██··████······████████··██████········██····██········██····██··██████··
+██████····██··██····██····██··██··········██······██··████··██····██··██····██
+██··██····██··██····██····██··██········██········██····██··██····██··██····██
+██····██··██····██··██····██··██········████████····██████····████····██████··", // RKHFZGUB
+     (Solution.part2 (getInputs ())))
+    |> Assert.AreEqual
+
+[<Test>]
+let ``Test folding`` () =
+    test <@ (Solution.convPoint 7 0) = Some 0 @>
+    test <@ (Solution.convPoint 7 14) = Some 0 @>
+    test <@ (Solution.convPoint 7 7) = None @>
+    test <@ (Solution.convPoint 7 6) = Some 6 @>
+    test <@ (Solution.convPoint 7 8) = Some 6 @>
+
+[<EntryPoint>]
+let main _ = 0
