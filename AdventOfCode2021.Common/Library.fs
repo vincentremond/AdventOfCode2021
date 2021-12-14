@@ -127,12 +127,19 @@ module Array =
         |> Array.groupBy fst
         |> Array.map (fun (a, b) -> (a, b |> Array.map snd))
 
+    let groupByFstAndMap (map: 'b array -> 'c) (arr: ('a * 'b) array) : ('a * 'c) array =
+        arr
+        |> Array.groupBy fst
+        |> Array.map (fun (a, arr) -> (a, arr |> (Array.map snd >> map)))
+
 
 [<RequireQualifiedAccess>]
 module Map =
     let findI m i = Map.find i m
     let tryFindI m i = Map.tryFind i m
-
+    let tryFindOrDefault k v m =
+        Map.tryFind k m |> Option.defaultValue v
+    
     let addByKey map value key = Map.add key value map
 
 [<AutoOpen>]
@@ -147,7 +154,4 @@ module ActivePatterns =
     let (|IsMatch|_|) pattern input =
         let m = Regex.Match(input, pattern)
 
-        if m.Success then
-            Some m
-        else
-            None
+        if m.Success then Some m else None

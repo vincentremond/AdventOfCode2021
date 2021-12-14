@@ -65,6 +65,8 @@ addFile
     "
 namespace AdventOfCode2021.Day{{{day}}}
 
+open AdventOfCode2021.Common
+
 module Solution =
     let calc inputs = -1
 
