@@ -38,7 +38,7 @@ module Solution =
         let sorted = values |> Array.sort
         sorted.[index]
 
-    let genericCalc calculateScoreForUnmatched calculateScoreForInvalid resultCalc (lines: string array) =
+    let genericCalc calculateScoreForUnmatchedCloseChar calculateScoreForInvalidEndingChar resultCalc (lines: string array) =
 
         let isStarter =
             function
@@ -56,25 +56,25 @@ module Solution =
             | '<' -> Some '>'
             | _ -> None
 
-        let rec findFirstIllegalChar starts chars =
-            match chars with
+        let rec explore notClosedStarts charsToExplore =
+            match charsToExplore with
             | c :: otherChars ->
                 match isStarter c with
-                | true -> findFirstIllegalChar (c :: starts) otherChars
+                | true -> explore (c :: notClosedStarts) otherChars
                 | false ->
-                    match starts with
+                    match notClosedStarts with
                     | start :: otherStarts ->
                         let ending = getEnding start |> Option.get
 
                         if ending = c then
-                            findFirstIllegalChar otherStarts otherChars
+                            explore otherStarts otherChars
                         else
-                            calculateScoreForInvalid c
-                    | [] -> failwith "Err"
-            | [] -> calculateScoreForUnmatched starts
+                            calculateScoreForInvalidEndingChar c
+                    | [] -> failwith "Trying to close more than what was opened"
+            | [] -> calculateScoreForUnmatchedCloseChar notClosedStarts
 
         lines
-        |> Array.choose (List.ofSeq >> (findFirstIllegalChar []))
+        |> Array.choose (List.ofSeq >> (explore []))
         |> resultCalc
 
     let part1 =

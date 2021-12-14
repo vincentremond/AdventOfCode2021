@@ -64,26 +64,24 @@ start-RW
 [<Test>]
 let ``1-1 Test part1 with samples`` () =
 
-    [|
-        smallSample ()
-        largerSample ()
-        eventLargerSample ()
-    |]
-    |> Seq.iter
-        (fun (expectedPathsCountPart1, _, inputString) ->
-            let asLines =
-                inputString
-                |> String.splitLines
-                |> (Array.filter String.notNullOrEmpty)
+    [| smallSample ()
+       largerSample ()
+       eventLargerSample () |]
+    |> Seq.iter (fun (expectedPathsCountPart1, _, inputString) ->
+        let asLines =
+            inputString
+            |> String.splitLines
+            |> (Array.filter String.notNullOrEmpty)
 
-            test <@ Solution.part1 asLines = expectedPathsCountPart1 @>)
+        test <@ Solution.part1 asLines = expectedPathsCountPart1 @>)
 
 [<Test>]
 let ``1-2 Test part1 with inputs`` () =
     test <@ Solution.part1 (getInputs ()) = 3463 @>
 
-let p2 f = 
-    let _, expected, data = f()
+let p2 f =
+    let _, expected, data = f ()
+
     let input =
         data
         |> String.splitLines

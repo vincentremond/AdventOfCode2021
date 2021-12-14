@@ -32,23 +32,20 @@ let part2 (lines: string array) =
         directions
         |> Seq.map (Tuple.map2 (+) position)
         |> Seq.filter (Tuple.map2 validateIndex max >> Tuple.``and``)
-        |> Seq.filter
-            (fun (y, x) ->
-                match data.[y].[x] with
-                | Unassigned -> true
-                | _ -> false)
+        |> Seq.filter (fun (y, x) ->
+            match data.[y].[x] with
+            | Unassigned -> true
+            | _ -> false)
         |> Seq.iter (fun (y, x) -> exploreBasin y x row id)
 
     data
-    |> Array.iteri
-        (fun y row ->
-            row
-            |> Array.iteri
-                (fun x value ->
-                    match value with
-                    | Peak
-                    | Basin _ -> ()
-                    | Unassigned -> exploreBasin y x row (y, x)))
+    |> Array.iteri (fun y row ->
+        row
+        |> Array.iteri (fun x value ->
+            match value with
+            | Peak
+            | Basin _ -> ()
+            | Unassigned -> exploreBasin y x row (y, x)))
 
     data
     |> Array.concat

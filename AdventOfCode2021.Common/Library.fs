@@ -90,9 +90,7 @@ module List =
             | [] -> [ [ e ] ]
             | x :: xs' as xs ->
                 (e :: xs)
-                :: [
-                    for xs in distribute e xs' -> x :: xs
-                ]
+                :: [ for xs in distribute e xs' -> x :: xs ]
 
         let rec permute =
             function
@@ -137,9 +135,10 @@ module Array =
 module Map =
     let findI m i = Map.find i m
     let tryFindI m i = Map.tryFind i m
+
     let tryFindOrDefault k v m =
         Map.tryFind k m |> Option.defaultValue v
-    
+
     let addByKey map value key = Map.add key value map
 
 [<AutoOpen>]

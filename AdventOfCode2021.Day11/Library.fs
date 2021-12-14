@@ -22,16 +22,14 @@ module Solution =
             (Array.length data, Array.length data.[0])
 
         let neighbours =
-            [|
-                0, 1
-                1, 1
-                1, 0
-                1, -1
-                0, -1
-                -1, -1
-                -1, 0
-                -1, 1
-            |]
+            [| 0, 1
+               1, 1
+               1, 0
+               1, -1
+               0, -1
+               -1, -1
+               -1, 0
+               -1, 1 |]
 
         let getNeighboursToIncrement position =
             let add max v inc =
@@ -63,10 +61,9 @@ module Solution =
 
         let incrementOctopuses iteration =
             data
-            |> Array.iteri
-                (fun y row ->
-                    row
-                    |> Array.iteri (fun x _ -> incrementOctopus iteration (y, x)))
+            |> Array.iteri (fun y row ->
+                row
+                |> Array.iteri (fun x _ -> incrementOctopus iteration (y, x)))
 
             if iteration < 10 || iteration % 10 = 0 then
                 Console.WriteLine($"After step {iteration}:")

@@ -34,10 +34,8 @@ module Solution =
         let readLine l =
             let r = l |> (LineParser().TypedMatch)
 
-            [|
-                (toCave r.From.Value, toCave r.To.Value)
-                (toCave r.To.Value, toCave r.From.Value)
-            |]
+            [| (toCave r.From.Value, toCave r.To.Value)
+               (toCave r.To.Value, toCave r.From.Value) |]
 
         let caves =
             lines
@@ -48,16 +46,15 @@ module Solution =
         let displayPath path =
             path
             |> Seq.rev
-            |> Seq.iter
-                (fun p ->
-                    let itemValue =
-                        match p with
-                        | Start -> "start"
-                        | End -> "end"
-                        | SmallCave s -> s
-                        | LargeCave l -> l
+            |> Seq.iter (fun p ->
+                let itemValue =
+                    match p with
+                    | Start -> "start"
+                    | End -> "end"
+                    | SmallCave s -> s
+                    | LargeCave l -> l
 
-                    printf "%s," itemValue)
+                printf "%s," itemValue)
 
             printfn "End"
 
@@ -75,24 +72,22 @@ module Solution =
             let possibleDirections = caves |> Map.find cave
 
             possibleDirections
-            |> Array.sumBy
-                (fun targetCave ->
-                    match targetCave with
-                    | Start -> 0
-                    | End ->
-                        displayPath newPath
-                        1
-                    | LargeCave _ -> explore targetCave exploredSmallCaves jokerUsed newPath
-                    | SmallCave smallCaveId ->
-                        let explored =
-                            Set.contains smallCaveId exploredSmallCaves
+            |> Array.sumBy (fun targetCave ->
+                match targetCave with
+                | Start -> 0
+                | End ->
+                    displayPath newPath
+                    1
+                | LargeCave _ -> explore targetCave exploredSmallCaves jokerUsed newPath
+                | SmallCave smallCaveId ->
+                    let explored =
+                        Set.contains smallCaveId exploredSmallCaves
 
-                        match explored, jokerUsed, canUseJoker with
-                        | true, false, true -> explore targetCave exploredSmallCaves true newPath
-                        | true, true, true -> 0
-                        | true, _, false -> 0
-                        | false, _, _ -> explore targetCave exploredSmallCaves jokerUsed newPath
-                )
+                    match explored, jokerUsed, canUseJoker with
+                    | true, false, true -> explore targetCave exploredSmallCaves true newPath
+                    | true, true, true -> 0
+                    | true, _, false -> 0
+                    | false, _, _ -> explore targetCave exploredSmallCaves jokerUsed newPath)
 
         explore Start Set.empty false []
 

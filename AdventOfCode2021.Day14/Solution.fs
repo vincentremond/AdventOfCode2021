@@ -31,11 +31,10 @@ module Solution =
         | _ ->
             let newConfig =
                 config
-                |> Array.map
-                    (fun ((l, r), count) ->
-                        match (mappings |> Map.tryFind (l, r)) with
-                        | None -> failwith "all mapping not exists ??"
-                        | Some n -> [| ((l, n), count); ((n, r), count) |])
+                |> Array.map (fun ((l, r), count) ->
+                    match (mappings |> Map.tryFind (l, r)) with
+                    | None -> failwith "all mapping not exists ??"
+                    | Some n -> [| ((l, n), count); ((n, r), count) |])
                 |> Array.concat
                 |> Array.groupByFstAndMap Array.sum
 
@@ -66,10 +65,14 @@ module Solution =
             |> Array.map (fun ((l, r), count) -> [| (l, count); (r, count) |])
             |> Array.concat
             |> Array.groupByFstAndMap Array.sum
-            |> Array.map
-                (fun (chr, cnt) ->
-                    let countCorrector = if chr = firstLetterToFix || chr = lastLetterToFix then 1L else 0L
-                    (chr, (cnt + countCorrector) / 2L))
+            |> Array.map (fun (chr, cnt) ->
+                let countCorrector =
+                    if chr = firstLetterToFix || chr = lastLetterToFix then
+                        1L
+                    else
+                        0L
+
+                (chr, (cnt + countCorrector) / 2L))
             |> Array.sortByDescending snd
 
         let _, max = Array.head countByChar

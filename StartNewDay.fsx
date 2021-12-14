@@ -6,7 +6,8 @@ open System
 open System.IO
 open System.Text
 
-let template = {| day = DateTime.Today.Day.ToString("00") |} 
+let template =
+    {| day = DateTime.Today.Day.ToString("00") |}
 
 let createFolder nameTemplate =
     let name =
