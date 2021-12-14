@@ -44,13 +44,7 @@ module Solution =
     let convPoint foldA a =
         match (a - foldA) with
         | 0 -> None
-        | a' ->
-            let i = foldA - (a' |> abs)
-
-            if i >= 0 then
-                Some(i)
-            else
-                failwith "Humm 🤔"
+        | a' -> (foldA - (a' |> abs)) |> Some
 
     let mapTuple (f1, f2) (a1, a2) = (f1 a1, f2 a2)
 
