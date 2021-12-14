@@ -16,22 +16,18 @@ module Solution =
         | _ -> None
 
     let calculateScoreForMissing stack =
-        let rec calculateScoreForMissing' stack score =
-            match stack with
-            | c :: others ->
-                let newScore =
-                    score * 5L
-                    + match c with
-                      | '(' -> 1L
-                      | '[' -> 2L
-                      | '{' -> 3L
-                      | '<' -> 4L
-                      | _ -> failwith $"Invalid char %A{c}"
 
-                calculateScoreForMissing' others newScore
-            | [] -> Some score
-
-        calculateScoreForMissing' stack 0L
+        stack
+        |> List.fold
+            (fun score c ->
+                score * 5L
+                + match c with
+                  | '(' -> 1L
+                  | '[' -> 2L
+                  | '{' -> 3L
+                  | '<' -> 4L)
+            0L
+        |> Some
 
     let medianValue values =
         let index = Array.length values / 2
@@ -40,36 +36,23 @@ module Solution =
 
     let genericCalc calculateScoreForUnmatchedCloseChar calculateScoreForInvalidEndingChar resultCalc (lines: string array) =
 
-        let isStarter =
-            function
-            | '('
-            | '['
-            | '{'
-            | '<' -> true
-            | _ -> false
-
-        let getEnding =
-            function
-            | '(' -> Some ')'
-            | '[' -> Some ']'
-            | '{' -> Some '}'
-            | '<' -> Some '>'
-            | _ -> None
-
         let rec explore notClosedStarts charsToExplore =
             match charsToExplore with
-            | c :: otherChars ->
-                match isStarter c with
-                | true -> explore (c :: notClosedStarts) otherChars
-                | false ->
+            | currentChar :: otherChars ->
+                match currentChar with
+                | '('
+                | '['
+                | '{'
+                | '<' -> explore (currentChar :: notClosedStarts) otherChars
+                | _ ->
                     match notClosedStarts with
-                    | start :: otherStarts ->
-                        let ending = getEnding start |> Option.get
-
-                        if ending = c then
-                            explore otherStarts otherChars
-                        else
-                            calculateScoreForInvalidEndingChar c
+                    | firstNotClosedStart :: otherStarts ->
+                        match firstNotClosedStart, currentChar with
+                        | '(', ')'
+                        | '[', ']'
+                        | '{', '}'
+                        | '<', '>' -> explore otherStarts otherChars
+                        | _ -> calculateScoreForInvalidEndingChar currentChar
                     | [] -> failwith "Trying to close more than what was opened"
             | [] -> calculateScoreForUnmatchedCloseChar notClosedStarts
 
