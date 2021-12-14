@@ -24,8 +24,7 @@ let getSample () =
 
 let getInputs () = "inputs.txt" |> File.ReadAllLines
 
-let genericTest sample calc expectedResult =
-    test <@ calc sample = expectedResult @>
+let genericTest sample calc expectedResult = test <@ calc sample = expectedResult @>
 
 [<Test>]
 let ``1-1 Test part1 with sample`` () =

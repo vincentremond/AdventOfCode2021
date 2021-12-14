@@ -70,14 +70,17 @@ module Solution =
 
                 for y in 0 .. maxY do
                     yield "\r\n"
+
                     for x in 0 .. maxX do
-                        yield (
-                         match pointsSet |> Set.contains (y, x) with
-                         | true -> "██"
-                         | false -> "··")
+                        yield
+                            (match pointsSet |> Set.contains (y, x) with
+                             | true -> "██"
+                             | false -> "··")
             }
 
-        let result = getChars() |> String.concat String.empty
+        let result =
+            getChars () |> String.concat String.empty
+
         result
 
 
