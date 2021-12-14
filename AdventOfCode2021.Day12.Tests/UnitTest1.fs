@@ -103,3 +103,6 @@ let ``2-1-3 Test part1 with samples`` () = p2 eventLargerSample
 [<Test>]
 let ``2-2 Test part1 with inputs`` () =
     Assert.AreEqual(91533, (Solution.part2 (getInputs ())))
+
+[<EntryPoint>]
+let main _ = 0

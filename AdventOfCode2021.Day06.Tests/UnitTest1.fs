@@ -30,3 +30,6 @@ let ``2.1 Test part2 with sample`` () =
 [<Test>]
 let ``2.2 Test part2 with inputs`` () =
     genericTest getInputs Solution.getFishCount 256 1741362314973L
+
+[<EntryPoint>]
+let main _ = 0

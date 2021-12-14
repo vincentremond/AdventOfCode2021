@@ -7,14 +7,13 @@ module Solution =
     let linear currentPosition targetPosition =
         (currentPosition - targetPosition) |> abs
 
-    let fibonacci currentPosition targetPosition =
-        let rec fibonacci' x acc =
+    let triangular currentPosition targetPosition =
+        let rec triangular' x acc =
             match x with
             | 0 -> acc
-            | v -> fibonacci' (v - 1) (acc + v)
+            | v -> triangular' (v - 1) (acc + v)
 
-        fibonacci' (linear currentPosition targetPosition) 0
-
+        triangular' (linear currentPosition targetPosition) 0
 
     let costAsPos countBy burnCalculator targetPosition =
         countBy

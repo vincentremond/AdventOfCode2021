@@ -32,3 +32,6 @@ let Test1 () =
       inputs, Solution.part1, 8622
       inputs, Solution.part2, 22037 ]
     |> Seq.iter (fun (data, f, result) -> test <@ (f data) = result @>)
+
+[<EntryPoint>]
+let main _ = 0

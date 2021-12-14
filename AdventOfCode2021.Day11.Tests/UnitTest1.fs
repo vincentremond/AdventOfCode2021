@@ -42,3 +42,6 @@ let ``2-1 Test part1 with sample`` () =
 [<Test>]
 let ``2-2 Test part1 with inputs`` () =
     genericTest (getInputs ()) Solution.part2 273
+
+[<EntryPoint>]
+let main _ = 0

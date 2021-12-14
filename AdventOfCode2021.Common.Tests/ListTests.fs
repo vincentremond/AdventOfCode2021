@@ -35,3 +35,6 @@ let TestIntersect () =
     test <@ Tool.intersect (0, 2) (1, 3) = true @>
     test <@ Tool.intersect (1, 3) (0, 2) = true @>
     test <@ Tool.intersect (1, 1) (1, 1) = true @>
+
+[<EntryPoint>]
+let main _ = 0
