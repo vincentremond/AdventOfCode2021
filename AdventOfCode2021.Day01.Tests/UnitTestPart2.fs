@@ -26,3 +26,6 @@ let Test2 () =
            |> File.ReadAllLines
            |> Seq.map int
            |> Solution.calcPart2 = 1761 @>
+
+[<EntryPoint>]
+let main _ = 0

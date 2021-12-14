@@ -27,3 +27,6 @@ let Test2 () =
         <@ "inputs.txt"
            |> File.ReadAllLines
            |> (Solution.getResult Solution.calculateNewPositionWithAim) = 1281977850 @>
+
+[<EntryPoint>]
+let main _ = 0

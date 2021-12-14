@@ -32,8 +32,11 @@ let ``1.2 Test part1 with inputs`` () =
 
 [<Test>]
 let ``2.1 Test part2 with sample`` () =
-    genericTest getSample (calc fibonacci (Array.item 2)) 206
+    genericTest getSample (calc triangular (Array.item 2)) 206
 
 [<Test>]
 let ``2.2 Test part2 with inputs`` () =
-    genericTest getInputs (calc fibonacci cheapest) 99540554
+    genericTest getInputs (calc triangular cheapest) 99540554
+
+[<EntryPoint>]
+let main _ = 0

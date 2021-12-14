@@ -40,3 +40,6 @@ let Test1 () =
       sample, Solution.getResultPart2, 1924
       inputs, Solution.getResultPart2, 3178 ]
     |> Seq.iter (fun (data, f, result) -> test <@ (f data) = result @>)
+
+[<EntryPoint>]
+let main _ = 0
