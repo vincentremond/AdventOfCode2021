@@ -1,7 +1,9 @@
 ﻿namespace AdventOfCode2021.Day13
 
-open System.Text
+open System.Drawing
+open System.IO
 open AdventOfCode2021.Common
+open Tesseract
 
 type X = int
 type Y = int
@@ -60,27 +62,39 @@ module Solution =
          | Horizontal y -> mapTuple ((convPoint y), Some))
         >> Option.unfold
 
-    let displayChars (points: Point list) : string =
-        let pointsSet: Point Set = Set.ofList points
+    let displayChars (points: Point seq) : string =
 
-        let getChars () =
-            seq {
-                let maxY, maxX =
-                    List.fold (fun state item -> Tuple.map2 max item state) (0, 0) points
+        let maxY, maxX =
+            Seq.fold (fun state item -> Tuple.map2 max item state) (0, 0) points
 
-                for y in 0 .. maxY do
-                    yield "\r\n"
-                    for x in 0 .. maxX do
-                        yield (
-                         match pointsSet |> Set.contains (y, x) with
-                         | true -> "██"
-                         | false -> "··")
-            }
+        let bmp = new Bitmap(maxX + 3, maxY + 3)
+        use graph = Graphics.FromImage(bmp)
 
-        let result = getChars() |> String.concat String.empty
-        result
+        let r =
+            new Rectangle(0, 0, bmp.Width, bmp.Height)
 
+        graph.FillRectangle(Brushes.White, r)
 
+        for y, x in points do
+            bmp.SetPixel(x + 1, y + 1, Color.Black)
+
+        let bmp =
+            new Bitmap(bmp, new Size(bmp.Width * 8, bmp.Height * 8))
+
+        let ms = new MemoryStream()
+        bmp.Save(ms, Imaging.ImageFormat.Bmp)
+        ms.Flush()
+        ms.Position <- 0
+        let barr = ms.ToArray()
+
+        File.WriteAllBytes(@".\data\test.bmp", barr)
+
+        let eng =
+            new TesseractEngine(@".\data\", "eng", EngineMode.TesseractOnly)
+
+        use img = Pix.LoadFromMemory(barr)
+        use page = eng.Process(img)
+        page.GetLSTMBoxText(0)
 
     let calc (foldFilter: FoldingLine list -> FoldingLine list) (calculateResult: Point list -> 'a) inputs =
 
