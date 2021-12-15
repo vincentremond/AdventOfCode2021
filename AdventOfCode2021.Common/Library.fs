@@ -32,6 +32,13 @@ module Option =
         | Some a, Some b -> Some(a, b)
         | _ -> None
 
+    let merge (merger: 'a -> 'a -> 'a) (a1: 'a option, a2: 'a option) =
+        match a1, a2 with
+        | Some v1, Some v2 -> Some(merger v1 v2)
+        | Some v1, None -> Some v1
+        | None, Some v2 -> Some v2
+        | None, None -> None
+
 [<RequireQualifiedAccess>]
 module Tuple =
     let map f (a, b) = (f a, f b)
@@ -40,7 +47,8 @@ module Tuple =
     let mapSnd f (a, b) = (a, f b)
     let apply f (a1, a2) = ((f a1), (f a2))
     let fold f (a, b) = f a b
-    let apply2 (f1, f2) (a1, a2) (b1, b2) = ((f1 a1 b1), (f2 a2 b2))
+    let apply2f1t (f1, f2) (a1, a2) = ((f1 a1), (f2 a2))
+    let apply2f2t (f1, f2) (a1, a2) (b1, b2) = ((f1 a1 b1), (f2 a2 b2))
     let transpose ((a1, a2), (b1, b2)) = ((a1, b1), (a2, b2))
     let rev (a, b) = (b, a)
     let unfold f1 f2 a = (f1 a, f2 a)
@@ -90,7 +98,9 @@ module List =
             | [] -> [ [ e ] ]
             | x :: xs' as xs ->
                 (e :: xs)
-                :: [ for xs in distribute e xs' -> x :: xs ]
+                :: [
+                    for xs in distribute e xs' -> x :: xs
+                ]
 
         let rec permute =
             function
@@ -154,3 +164,18 @@ module ActivePatterns =
         let m = Regex.Match(input, pattern)
 
         if m.Success then Some m else None
+
+module Direction =
+    let move max directions startingPoint =
+        let mapDir max x diff =
+            let n = x + diff
+
+            if n < 0 then None
+            else if n > max then None
+            else Some n
+
+        directions
+        |> Seq.choose (
+            Tuple.map3 mapDir max startingPoint
+            >> Option.unfold
+        )
