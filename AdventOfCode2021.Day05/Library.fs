@@ -42,7 +42,7 @@ module Solution =
             let increments, operators = (getInc s endOfLine) |> Tuple.transpose
 
             let generator currentPoint =
-                match Tuple.apply2 operators currentPoint endOfLine with
+                match Tuple.apply2f2t operators currentPoint endOfLine with
                 | false, false ->
                     let nextPoint = Tuple.map2 (+) currentPoint increments
                     Some(currentPoint, nextPoint)
