@@ -111,6 +111,9 @@ module List =
 
     let itemR arr idx = List.item idx arr
 
+    let product =
+        List.fold (fun state item -> item * state) 1UL
+
 [<RequireQualifiedAccess>]
 module Array =
     let range start length =
