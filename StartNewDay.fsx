@@ -1,13 +1,18 @@
 ﻿#r "nuget: Nustache"
 
+open System
 open System.Diagnostics
 open Nustache.Core
-open System
 open System.IO
 open System.Text
 
-let template =
-    {| day = DateTime.Today.Day.ToString("00") |}
+let day =
+    fsi.CommandLineArgs
+    |> Array.tail
+    |> Array.exactlyOne
+    |> int
+
+let template = {| day = day |}
 
 let createFolder nameTemplate =
     let name =

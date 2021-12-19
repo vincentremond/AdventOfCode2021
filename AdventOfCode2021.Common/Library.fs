@@ -32,6 +32,11 @@ module Option =
         | Some a, Some b -> Some(a, b)
         | _ -> None
 
+    let unwrap (t: ('a * 'b) option): 'a option * 'b option =
+        match t with
+        | Some (a, b) -> (Some a, Some b)
+        | _ -> (None,None)
+
     let merge (merger: 'a -> 'a -> 'a) (a1: 'a option, a2: 'a option) =
         match a1, a2 with
         | Some v1, Some v2 -> Some(merger v1 v2)
@@ -42,7 +47,7 @@ module Option =
 [<RequireQualifiedAccess>]
 module Tuple =
     let map f (a, b) = (f a, f b)
-    let map2 f (a1, a2) (b1, b2) = ((f a1 b1), (f a2 b2))
+    let map2 f (x1, x2) (y1, y2) = ((f x1 y1), (f x2 y2))
     let map3 f (a1, a2) (b1, b2) (c1, c2) = ((f a1 b1 c1), (f a2 b2 c2))
     let mapSnd f (a, b) = (a, f b)
     let apply f (a1, a2) = ((f a1), (f a2))
@@ -86,8 +91,10 @@ module Seq =
 module List =
     let tryPop l =
         match l with
-        | head :: tail -> Some(head, tail)
-        | [] -> None
+        | head :: tail -> Some(head), tail
+        | [] -> None, []
+
+    let pop l = (l |> List.head, l |> List.tail)
 
     let range start length = [ start .. 1 .. (start + length - 1) ]
 
@@ -158,7 +165,13 @@ module Map =
 module Tool =
     let intersect (start1, end1) (start2, end2) : bool = (start1 <= end2) && (end1 >= start2)
     let ctoi (c: char) = (c |> int) - ('0' |> int)
-    let itoc (i: int) = (i + ('0' |> int)) |> char
+
+    let itoc (i: int) =
+        if i > 9 || i < 0 then
+            raise (ArgumentOutOfRangeException(nameof (i), i, "Not a single digit value"))
+
+        (i + ('0' |> int)) |> char
+
     let noop = ()
 
 [<AutoOpen>]
