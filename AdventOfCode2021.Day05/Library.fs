@@ -6,9 +6,10 @@ open FSharp.Text.RegexProvider
 
 module Solution =
 
-    type Line =
-        { Start: (int * int)
-          End: (int * int) }
+    type Line = {
+        Start: (int * int)
+        End: (int * int)
+    }
 
     type LineParser = Regex< @"^(?<X1>\d+),(?<Y1>\d+) -> (?<X2>\d+),(?<Y2>\d+)$" >
 
@@ -19,9 +20,7 @@ module Solution =
         | _ -> false
 
     let horizontalOrVerticalOrDiagonal line =
-        match Tuple.map2 (-) line.Start line.End
-              |> Tuple.map abs
-            with
+        match Tuple.map2 (-) line.Start line.End |> Tuple.map abs with
         | _, 0 -> true
         | 0, _ -> true
         | diffX, diffY -> diffX = diffY
@@ -55,28 +54,18 @@ module Solution =
         let lines =
             input
             |> Seq.map (LineParser().TypedMatch)
-            |> Seq.map (fun regexMatch ->
-                { Start =
-                    (regexMatch.X1.Value, regexMatch.Y1.Value)
-                    |> Tuple.map int
-                  End =
-                    (regexMatch.X2.Value, regexMatch.Y2.Value)
-                    |> Tuple.map int })
+            |> Seq.map (fun regexMatch -> {
+                Start = (regexMatch.X1.Value, regexMatch.Y1.Value) |> Tuple.map int
+                End = (regexMatch.X2.Value, regexMatch.Y2.Value) |> Tuple.map int
+            })
             |> Seq.filter lineFilter
             |> Seq.toList
 
-        let allPoints =
-            lines
-            |> Seq.map expandLine
-            |> Seq.concat
-            |> Seq.toList
+        let allPoints = lines |> Seq.map expandLine |> Seq.concat |> Seq.toList
 
         let countBy = allPoints |> Seq.countBy id
 
-        countBy
-        |> Seq.filter (fun (_, count) -> count > 1)
-        |> Seq.map snd
-        |> Seq.length
+        countBy |> Seq.filter (fun (_, count) -> count > 1) |> Seq.map snd |> Seq.length
 
     let part1: seq<string> -> int = (calc horizontalOrVertical)
     let part2: seq<string> -> int = (calc horizontalOrVerticalOrDiagonal)

@@ -20,8 +20,7 @@ module Solution =
                 match line with
                 | "" -> parseInput' others points folds
                 | IsMatch @"^(?<X>\d+),(?<Y>\d+)$" m ->
-                    let point: Point =
-                        (m.Groups.["Y"].Value |> int, m.Groups.["X"].Value |> int)
+                    let point: Point = (m.Groups.["Y"].Value |> int, m.Groups.["X"].Value |> int)
 
                     parseInput' others (point :: points) folds
                 | IsMatch @"^fold along (?<Axis>\w)=(?<Distance>\d+)$" m ->
@@ -62,22 +61,19 @@ module Solution =
                 let maxY, maxX =
                     List.fold (fun state item -> Tuple.map2 max item state) (0, 0) points
 
-                for y in 0 .. maxY do
+                for y in 0..maxY do
                     yield "\r\n"
 
-                    for x in 0 .. maxX do
+                    for x in 0..maxX do
                         yield
                             (match pointsSet |> Set.contains (y, x) with
                              | true -> "██"
                              | false -> "··")
             }
 
-        let result =
-            getChars () |> String.concat String.empty
+        let result = getChars () |> String.concat String.empty
 
         result
-
-
 
     let calc (foldFilter: FoldingLine list -> FoldingLine list) (calculateResult: Point list -> 'a) inputs =
 

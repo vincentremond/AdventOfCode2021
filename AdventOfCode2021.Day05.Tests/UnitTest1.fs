@@ -23,14 +23,15 @@ let Test1 () =
         |> String.splitLines
         |> Array.toList
 
-    let inputs =
-        "inputs.txt" |> File.ReadAllLines |> Array.toList
+    let inputs = "inputs.txt" |> File.ReadAllLines |> Array.toList
 
-    [ sample, Solution.part1, 5
-      sample, Solution.part2, 12
+    [
+        sample, Solution.part1, 5
+        sample, Solution.part2, 12
 
-      inputs, Solution.part1, 8622
-      inputs, Solution.part2, 22037 ]
+        inputs, Solution.part1, 8622
+        inputs, Solution.part2, 22037
+    ]
     |> Seq.iter (fun (data, f, result) -> test <@ (f data) = result @>)
 
 [<EntryPoint>]

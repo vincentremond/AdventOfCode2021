@@ -18,18 +18,16 @@ module Solution =
     let costAsPos countBy burnCalculator targetPosition =
         countBy
         |> Seq.map (fun (currentPosition, population) ->
-            ((burnCalculator currentPosition targetPosition)
-             * population)
-            |> abs)
+            ((burnCalculator currentPosition targetPosition) * population) |> abs
+        )
         |> Seq.sum
 
-    let calc burnCalculator (resultPicker: int [] -> int) (input: int list) =
+    let calc burnCalculator (resultPicker: int[] -> int) (input: int list) =
 
         let countBy = input |> Seq.countBy id |> Seq.toArray
 
         let result =
-            [| 0 .. (input |> Seq.max) |]
-            |> Array.map (costAsPos countBy burnCalculator)
+            [| 0 .. (input |> Seq.max) |] |> Array.map (costAsPos countBy burnCalculator)
 
         printf "%A" result
 

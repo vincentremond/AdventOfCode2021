@@ -10,6 +10,7 @@ module Solution =
         | Forward of int
         | Down of int
         | Up of int
+
         static member mk s i =
             i
             |> match s with
@@ -18,17 +19,19 @@ module Solution =
                | "up" -> Up
                | _ -> failwith $"Unmatched direction {s}"
 
-    type Result =
-        { Horizontal: int
-          Vertical: int
-          Aim: int }
+    type Result = {
+        Horizontal: int
+        Vertical: int
+        Aim: int
+    } with
+
         static member calcOutput r = r.Horizontal * r.Vertical
 
-        static member blank =
-            { Vertical = 0
-              Horizontal = 0
-              Aim = 0 }
-
+        static member blank = {
+            Vertical = 0
+            Horizontal = 0
+            Aim = 0
+        }
 
     let calculateNewPosition (s: Result) (currentItem: Direction) =
         match currentItem with
@@ -40,10 +43,11 @@ module Solution =
         match currentItem with
         | Down x -> { s with Aim = s.Aim + x }
         | Up x -> { s with Aim = s.Aim - x }
-        | Forward x ->
-            { s with
+        | Forward x -> {
+            s with
                 Horizontal = s.Horizontal + x
-                Vertical = s.Vertical + (s.Aim * x) }
+                Vertical = s.Vertical + (s.Aim * x)
+          }
 
     let getResult folder (data: string seq) =
         data

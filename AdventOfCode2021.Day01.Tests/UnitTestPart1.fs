@@ -8,21 +8,21 @@ open Swensen.Unquote
 [<Test>]
 let Test1 () =
     test
-        <@ Solution.calc [| 199
-                            200
-                            208
-                            210
-                            200
-                            207
-                            240
-                            269
-                            260
-                            263 |] = 7 @>
+        <@
+            Solution.calc [|
+                199
+                200
+                208
+                210
+                200
+                207
+                240
+                269
+                260
+                263
+            |] = 7
+        @>
 
 [<Test>]
 let Test2 () =
-    test
-        <@ "inputs.txt"
-           |> File.ReadAllLines
-           |> Seq.map int
-           |> Solution.calc = 1709 @>
+    test <@ "inputs.txt" |> File.ReadAllLines |> Seq.map int |> Solution.calc = 1709 @>
