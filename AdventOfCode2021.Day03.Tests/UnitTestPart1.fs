@@ -9,7 +9,8 @@ open Swensen.Unquote
 [<Test>]
 let Test1 () =
     test
-        <@ "00100
+        <@
+            "00100
 11110
 10110
 10111
@@ -21,12 +22,10 @@ let Test1 () =
 11001
 00010
 01010"
-           |> String.splitLines
-           |> (Solution.getResultPart1) = 198 @>
+            |> String.splitLines
+            |> (Solution.getResultPart1) = 198
+        @>
 
 [<Test>]
 let Test2 () =
-    test
-        <@ "inputs.txt"
-           |> File.ReadAllLines
-           |> (Solution.getResultPart2) = 2784375 @>
+    test <@ "inputs.txt" |> File.ReadAllLines |> (Solution.getResultPart2) = 2784375 @>

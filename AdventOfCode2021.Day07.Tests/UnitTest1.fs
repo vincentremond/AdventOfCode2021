@@ -12,10 +12,7 @@ let toIntList s =
 let getSample () = "16,1,2,0,4,2,7,1,2,14" |> toIntList
 
 let getInputs () =
-    "inputs.txt"
-    |> File.ReadAllLines
-    |> Seq.head
-    |> toIntList
+    "inputs.txt" |> File.ReadAllLines |> Seq.head |> toIntList
 
 let genericTest getSample calc expectedResult =
     test <@ () |> getSample |> calc = expectedResult @>

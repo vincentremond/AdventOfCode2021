@@ -26,10 +26,12 @@ let Test1 () =
 
     let inputs = "inputs.txt" |> File.ReadAllLines
 
-    [ sample, Solution.getResultPart1, 198
-      inputs, Solution.getResultPart1, 2583164
-      sample, Solution.getResultPart2, 230
-      inputs, Solution.getResultPart2, 2784375 ]
+    [
+        sample, Solution.getResultPart1, 198
+        inputs, Solution.getResultPart1, 2583164
+        sample, Solution.getResultPart2, 230
+        inputs, Solution.getResultPart2, 2784375
+    ]
     |> Seq.iter (fun (data, f, result) -> test <@ (f data) = result @>)
 
 [<EntryPoint>]

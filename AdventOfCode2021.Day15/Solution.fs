@@ -4,23 +4,23 @@ open AdventOfCode2021.Common
 
 type Position = int * int
 
-type LockedCell = { Y: int; X: int; PathCost: int }
+type LockedCell = {
+    Y: int
+    X: int
+    PathCost: int
+}
 
-type InProgressCell =
-    {
-        Y: int
-        X: int
-        CellCost: int
-        PathCost: int
-    }
+type InProgressCell = {
+    Y: int
+    X: int
+    CellCost: int
+    PathCost: int
+}
 
 module Solution =
 
     let asFreeCells (c: seq<seq<(int * int) * int>>) : Map<int * int, int> =
-        c
-        |> Seq.concat
-        |> Seq.filter (fun (pos, _) -> pos <> (0, 0))
-        |> Map.ofSeq
+        c |> Seq.concat |> Seq.filter (fun (pos, _) -> pos <> (0, 0)) |> Map.ofSeq
 
     let parseInput inputs =
         inputs
@@ -30,26 +30,19 @@ module Solution =
     let parseInput5x5 inputs =
         let data =
             inputs
-            |> Seq.map
-                (fun l ->
-                    l
-                    |> Seq.map (fun c -> ((c |> ctoi) - 1))
-                    |> Seq.toArray)
+            |> Seq.map (fun l -> l |> Seq.map (fun c -> ((c |> ctoi) - 1)) |> Seq.toArray)
             |> Seq.toArray
 
         let fiveByFive =
-            [| 0 .. 4 |]
-            |> Array.map
-                (fun yy ->
-                    data
-                    |> Array.map
-                        (fun line ->
-                            [| 0 .. 4 |]
-                            |> Array.map
-                                (fun xx ->
-                                    line
-                                    |> Array.map (fun v -> ((v + yy + xx) % 9) + 1))
-                            |> Array.concat))
+            [| 0..4 |]
+            |> Array.map (fun yy ->
+                data
+                |> Array.map (fun line ->
+                    [| 0..4 |]
+                    |> Array.map (fun xx -> line |> Array.map (fun v -> ((v + yy + xx) % 9) + 1))
+                    |> Array.concat
+                )
+            )
             |> Array.concat
 
         fiveByFive
@@ -60,10 +53,7 @@ module Solution =
 
         let freshCells = inputs |> parseInput
 
-        let target =
-            freshCells
-            |> Map.keys
-            |> Seq.fold (Tuple.map2 max) (0, 0)
+        let target = freshCells |> Map.keys |> Seq.fold (Tuple.map2 max) (0, 0)
 
         let processFresh (locked: LockedCell) (fresh: Map<int * int, int>) =
             let pos = (locked.Y, locked.X)
@@ -76,17 +66,21 @@ module Solution =
                     let newFresh = fresh |> Map.remove lookoutPosition
                     let y, x = lookoutPosition
 
-                    let xx =
-                        {
-                            Y = y
-                            X = x
-                            CellCost = v
-                            PathCost = locked.PathCost + v
-                        }
+                    let xx = {
+                        Y = y
+                        X = x
+                        CellCost = v
+                        PathCost = locked.PathCost + v
+                    }
 
                     (newFresh, xx :: inProgress)
 
-            [| 0, 1; 0, -1; 1, 0; -1, 0 |]
+            [|
+                0, 1
+                0, -1
+                1, 0
+                -1, 0
+            |]
             |> Array.map (Tuple.map2 (+) pos)
             |> Array.fold folder (fresh, [])
 
@@ -100,11 +94,13 @@ module Solution =
                     let n =
                         let sum = locked.PathCost + curr.CellCost
 
-                        if sum < curr.PathCost
-                           && ((curr.Y + 1, curr.X) = pos
-                               || (curr.Y - 1, curr.X) = pos
-                               || (curr.Y, curr.X + 1) = pos
-                               || (curr.Y, curr.X - 1) = pos) then
+                        if
+                            sum < curr.PathCost
+                            && ((curr.Y + 1, curr.X) = pos
+                                || (curr.Y - 1, curr.X) = pos
+                                || (curr.Y, curr.X + 1) = pos
+                                || (curr.Y, curr.X - 1) = pos)
+                        then
                             { curr with PathCost = sum }
                         else
                             curr
@@ -116,8 +112,7 @@ module Solution =
         let display locked inprogress (fresh: Map<int * int, int>) =
             let height, width = target
 
-            let arr =
-                Array.init (height + 1) (fun _ -> Array.init (width + 1) (fun _ -> None))
+            let arr = Array.init (height + 1) (fun _ -> Array.init (width + 1) (fun _ -> None))
 
             let set y x v =
                 match arr.[y].[x] with
@@ -134,12 +129,12 @@ module Solution =
                 set y x $"f\t%d{v}"
 
             arr
-            |> Array.iter
-                (fun values ->
-                    values
-                    |> (Array.map (Option.defaultValue "?\t?"))
-                    |> String.join "\t"
-                    |> printfn "%s")
+            |> Array.iter (fun values ->
+                values
+                |> (Array.map (Option.defaultValue "?\t?"))
+                |> String.join "\t"
+                |> printfn "%s"
+            )
 
         let rec doCell locked (inProgress: InProgressCell list) fresh =
             match inProgress with
@@ -150,24 +145,21 @@ module Solution =
 
                     next.PathCost // the final result 🎉
                 else
-                    let lockedCell =
-                        {
-                            Y = next.Y
-                            X = next.X
-                            PathCost = next.PathCost
-                        }
+                    let lockedCell = {
+                        Y = next.Y
+                        X = next.X
+                        PathCost = next.PathCost
+                    }
 
                     let newLocked = lockedCell :: locked
 
                     let stillFresh, nowInProgress = processFresh lockedCell fresh
 
-                    let newInProgress =
-                        processInProgress lockedCell otherInProgress
+                    let newInProgress = processInProgress lockedCell otherInProgress
 
                     // merge and sort
                     let inProgressCells =
-                        (nowInProgress @ newInProgress)
-                        |> List.sortBy (fun ip -> ip.PathCost)
+                        (nowInProgress @ newInProgress) |> List.sortBy (fun ip -> ip.PathCost)
 
                     doCell newLocked inProgressCells stillFresh
 
