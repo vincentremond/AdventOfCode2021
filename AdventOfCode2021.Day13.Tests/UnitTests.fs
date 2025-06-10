@@ -3,8 +3,10 @@
 open System.IO
 open AdventOfCode2021.Common
 open AdventOfCode2021.Day13
+open FsUnitTyped
 open NUnit.Framework
 open Swensen.Unquote
+open FsUnit
 
 let getSample () =
     "
@@ -37,13 +39,11 @@ let getInputs () = "inputs.txt" |> File.ReadAllLines
 
 [<Test>]
 let ``1-1 Test part1 with sample`` () =
-    (17, (Solution.part1 (getSample ())))
-    |> Assert.AreEqual
+    (17, (Solution.part1 (getSample ()))) ||> shouldEqual
 
 [<Test>]
 let ``1-2 Test part1 with inputs`` () =
-    (802, (Solution.part1 (getInputs ())))
-    |> Assert.AreEqual
+    (802, (Solution.part1 (getInputs ()))) ||> shouldEqual
 
 [<Test>]
 let ``2-1 Test part1 with sample`` () =
@@ -54,7 +54,7 @@ let ``2-1 Test part1 with sample`` () =
 ██······██
 ██████████",
      (Solution.part2 (getSample ())))
-    |> Assert.AreEqual
+    ||> shouldEqual
 
 [<Test>]
 let ``2-2 Test part1 with inputs`` () =
@@ -64,9 +64,9 @@ let ``2-2 Test part1 with inputs`` () =
 ██····██··████······████████··██████········██····██········██····██··██████··
 ██████····██··██····██····██··██··········██······██··████··██····██··██····██
 ██··██····██··██····██····██··██········██········██····██··██····██··██····██
-██····██··██····██··██····██··██········████████····██████····████····██████··",  // RKHFZGUB
+██····██··██····██··██····██··██········████████····██████····████····██████··", // RKHFZGUB
      (Solution.part2 (getInputs ())))
-    |> Assert.AreEqual
+    ||> shouldEqual
 
 [<Test>]
 let ``Test folding`` () =

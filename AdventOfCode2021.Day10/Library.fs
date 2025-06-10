@@ -25,7 +25,9 @@ module Solution =
                   | '(' -> 1L
                   | '[' -> 2L
                   | '{' -> 3L
-                  | '<' -> 4L)
+                  | '<' -> 4L
+                  | _ -> failwith "Invalid character in stack"
+            )
             0L
         |> Some
 
@@ -34,7 +36,12 @@ module Solution =
         let sorted = values |> Array.sort
         sorted.[index]
 
-    let genericCalc calculateScoreForUnmatchedCloseChar calculateScoreForInvalidEndingChar resultCalc (lines: string array) =
+    let genericCalc
+        calculateScoreForUnmatchedCloseChar
+        calculateScoreForInvalidEndingChar
+        resultCalc
+        (lines: string array)
+        =
 
         let rec explore notClosedStarts charsToExplore =
             match charsToExplore with
@@ -56,12 +63,8 @@ module Solution =
                     | [] -> failwith "Trying to close more than what was opened"
             | [] -> calculateScoreForUnmatchedCloseChar notClosedStarts
 
-        lines
-        |> Array.choose (List.ofSeq >> (explore []))
-        |> resultCalc
+        lines |> Array.choose (List.ofSeq >> (explore [])) |> resultCalc
 
-    let part1 =
-        genericCalc none calculateScoreForInvalid Array.sum
+    let part1 = genericCalc none calculateScoreForInvalid Array.sum
 
-    let part2 =
-        genericCalc calculateScoreForMissing none medianValue
+    let part2 = genericCalc calculateScoreForMissing none medianValue

@@ -22,12 +22,13 @@ type ReduceStatus =
 type Nbr =
     | Raw of int<Value>
     | Grp of Nbr * Nbr
+
     override this.ToString() =
         let rec displayNumber' n =
             seq {
                 match n with
                 | Raw v -> yield (v |> int |> itoc)
-                | Grp (left, right) ->
+                | Grp(left, right) ->
                     yield '['
                     yield! displayNumber' left
                     yield ','
@@ -41,7 +42,6 @@ type SearchFor =
     | Left
     | Right
 
-
 module Solution =
 
     let transpose (nbr: Number list) : Nbr =
@@ -50,7 +50,7 @@ module Solution =
             | curr :: others ->
                 match previous with
                 | None -> regroup others (Some curr) results regroupLevel
-                | Some (prevL, prevV as prev) ->
+                | Some(prevL, prevV as prev) ->
                     let currL, currV = curr
 
                     let results, currentAsPrevious =
@@ -74,17 +74,12 @@ module Solution =
 
         regroup (nbr |> List.map (fun (v, l) -> (l, Raw v))) None [] 0<Level>
 
-
     let display (nbr: Number list) : string = nbr |> transpose |> string
 
     let parseNumber (str: string) =
         let discard c lst =
             match lst with
-            | x :: o ->
-                if x = c then
-                    o
-                else
-                    failwith $"Unexpected char '{x}'."
+            | x :: o -> if x = c then o else failwith $"Unexpected char '{x}'."
             | [] -> failwith $"Unexpected EOL."
 
         let rec parseNumber' (level: int<Level>) acc (numbers: char list) : Number list * char list =
@@ -92,18 +87,15 @@ module Solution =
             | c :: lst ->
                 match c with
                 | d when d >= '0' && d <= '9' ->
-                    let value =
-                        c |> ctoi |> LanguagePrimitives.Int32WithMeasure
+                    let value = c |> ctoi |> LanguagePrimitives.Int32WithMeasure
 
                     ((value, level) :: acc, lst)
                 | '[' ->
-                    let acc, lst =
-                        lst |> parseNumber' (level - 1<Level>) acc
+                    let acc, lst = lst |> parseNumber' (level - 1<Level>) acc
 
                     let lst = lst |> discard ','
 
-                    let acc, lst =
-                        lst |> parseNumber' (level - 1<Level>) acc
+                    let acc, lst = lst |> parseNumber' (level - 1<Level>) acc
 
                     let lst = lst |> discard ']'
                     (acc, lst)
@@ -111,29 +103,19 @@ module Solution =
 
             | [] -> (acc, [])
 
-        str
-        |> Seq.toList
-        |> (parseNumber' 5<Level> [])
-        |> fst
-        |> List.rev
+        str |> Seq.toList |> (parseNumber' 5<Level> []) |> fst |> List.rev
 
     let getMagnitude (n: Nbr) : int =
         let rec get' (n: Nbr) : int =
             match n with
             | Raw v -> v |> int
-            | Grp (a, b) ->
-                (a, b)
-                |> Tuple.map get'
-                |> Tuple.map2 (*) (3, 2)
-                |> Tuple.fold (+)
+            | Grp(a, b) -> (a, b) |> Tuple.map get' |> Tuple.map2 (*) (3, 2) |> Tuple.fold (+)
 
         get' n
 
     let rec reduce (levelMax: int<Level>) (nbr: Number list) =
 
-        let shouldReduce (_, bL) (_, cL) =
-            bL < levelMax
-            && cL < levelMax
+        let shouldReduce (_, bL) (_, cL) = bL < levelMax && cL < levelMax
 
         let rec reduce'
             (left: Number list)
@@ -147,14 +129,10 @@ module Solution =
             if shouldReduce b c then
                 let newLeft, status =
                     match a with
-                    | Some (aV, aL) ->
+                    | Some(aV, aL) ->
                         let foo = aV + fst b
 
-                        let status =
-                            if foo > 9<Value> then
-                                ReduceStatus.MustSplit
-                            else
-                                status
+                        let status = if foo > 9<Value> then ReduceStatus.MustSplit else status
 
                         (foo, aL) :: left, status
                     | None -> left, status
@@ -162,13 +140,13 @@ module Solution =
                 let replacement = (0<Value>, levelMax)
 
                 match d with
-                | Some (dV, dL) ->
+                | Some(dV, dL) ->
 
                     let newA = Some(replacement)
                     let newBValue = fst c + dV
                     let newB = (newBValue, dL)
-                    let newC, newRight = List.tryPop right
-                    let newD, newRight = List.tryPop newRight
+                    let newC, newRight = List.maybePop right
+                    let newD, newRight = List.maybePop newRight
 
                     let status =
                         if newBValue > 9<Value> then
@@ -191,15 +169,14 @@ module Solution =
                     let newA = Some b
                     let newB = c
                     let newC = d
-                    let newD, newRight = List.tryPop right
+                    let newD, newRight = List.maybePop right
                     reduce' newLeft newRight newA newB newC newD status
                 | None -> status, ((c :: (b :: newLeft)) |> List.rev)
-
 
         let a = None
         let b, nbr = List.pop nbr
         let c, nbr = List.pop nbr
-        let d, nbr = List.tryPop nbr
+        let d, nbr = List.maybePop nbr
 
         match reduce' [] nbr a b c d ReduceStatus.Ok with
         | ReduceStatus.MustSplit, s -> split levelMax s
@@ -229,9 +206,7 @@ module Solution =
         | SplitStatus.Ok, s -> s
 
     let add a b =
-        (a @ b)
-        |> List.map (fun (v, l) -> (v, l - 1<Level>))
-        |> reduce 1<Level>
+        (a @ b) |> List.map (fun (v, l) -> (v, l - 1<Level>)) |> reduce 1<Level>
 
     let sum (lst: Number list list) : Number list =
         let rec add' (acc: Number list option) (lst: Number list list) : Number list =
@@ -245,7 +220,6 @@ module Solution =
             | None, [] -> []
 
         add' None lst
-
 
     let calc inputs = -1
 

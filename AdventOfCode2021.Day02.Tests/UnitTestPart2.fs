@@ -12,21 +12,25 @@ let Setup () = ()
 [<Test>]
 let Test1 () =
     test
-        <@ "forward 5
+        <@
+            "forward 5
 down 5
 forward 8
 up 3
 down 8
 forward 2"
-           |> String.splitLines
-           |> (Solution.getResult Solution.calculateNewPositionWithAim) = 900 @>
+            |> String.splitLines
+            |> (Solution.getResult Solution.calculateNewPositionWithAim) = 900
+        @>
 
 [<Test>]
 let Test2 () =
     test
-        <@ "inputs.txt"
-           |> File.ReadAllLines
-           |> (Solution.getResult Solution.calculateNewPositionWithAim) = 1281977850 @>
+        <@
+            "inputs.txt"
+            |> File.ReadAllLines
+            |> (Solution.getResult Solution.calculateNewPositionWithAim) = 1281977850
+        @>
 
 [<EntryPoint>]
 let main _ = 0

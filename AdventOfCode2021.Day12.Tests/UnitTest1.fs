@@ -3,6 +3,7 @@ module AdventOfCode2021.Day12.Tests
 open System.IO
 open AdventOfCode2021.Common
 open AdventOfCode2021.Day12
+open FsUnitTyped
 open NUnit.Framework
 open Swensen.Unquote
 
@@ -64,16 +65,17 @@ start-RW
 [<Test>]
 let ``1-1 Test part1 with samples`` () =
 
-    [| smallSample ()
-       largerSample ()
-       eventLargerSample () |]
+    [|
+        smallSample ()
+        largerSample ()
+        eventLargerSample ()
+    |]
     |> Seq.iter (fun (expectedPathsCountPart1, _, inputString) ->
         let asLines =
-            inputString
-            |> String.splitLines
-            |> (Array.filter String.notNullOrEmpty)
+            inputString |> String.splitLines |> (Array.filter String.notNullOrEmpty)
 
-        test <@ Solution.part1 asLines = expectedPathsCountPart1 @>)
+        test <@ Solution.part1 asLines = expectedPathsCountPart1 @>
+    )
 
 [<Test>]
 let ``1-2 Test part1 with inputs`` () =
@@ -82,12 +84,11 @@ let ``1-2 Test part1 with inputs`` () =
 let p2 f =
     let _, expected, data = f ()
 
-    let input =
-        data
-        |> String.splitLines
-        |> (Array.filter String.notNullOrEmpty)
+    let input = data |> String.splitLines |> (Array.filter String.notNullOrEmpty)
 
-    Assert.AreEqual(expected, (Solution.part2 input))
+    // Assert.AreEqual(expected, (Solution.part2 input))
+
+    input |> Solution.part2 |> shouldEqual expected
 
 [<Test>]
 let ``2-1-1 Test part1 with samples`` () = p2 smallSample
@@ -100,7 +101,7 @@ let ``2-1-3 Test part1 with samples`` () = p2 eventLargerSample
 
 [<Test>]
 let ``2-2 Test part1 with inputs`` () =
-    Assert.AreEqual(91533, (Solution.part2 (getInputs ())))
+    getInputs () |> Solution.part2 |> shouldEqual 91533
 
 [<EntryPoint>]
 let main _ = 0

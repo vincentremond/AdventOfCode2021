@@ -8,24 +8,24 @@ open Swensen.Unquote
 [<Test>]
 let Test1 () =
     test
-        <@ Solution.calcPart2 [| 199
-                                 200
-                                 208
-                                 210
-                                 200
-                                 207
-                                 240
-                                 269
-                                 260
-                                 263 |] = 5 @>
+        <@
+            Solution.calcPart2 [|
+                199
+                200
+                208
+                210
+                200
+                207
+                240
+                269
+                260
+                263
+            |] = 5
+        @>
 
 [<Test>]
 let Test2 () =
-    test
-        <@ "inputs.txt"
-           |> File.ReadAllLines
-           |> Seq.map int
-           |> Solution.calcPart2 = 1761 @>
+    test <@ "inputs.txt" |> File.ReadAllLines |> Seq.map int |> Solution.calcPart2 = 1761 @>
 
 [<EntryPoint>]
 let main _ = 0
