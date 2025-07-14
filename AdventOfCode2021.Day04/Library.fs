@@ -3,21 +3,25 @@
 open AdventOfCode2021.Common
 
 [<Struct>]
-type DrawnNumber = { Position: int; Value: int }
+type DrawnNumber = {
+    Position: int
+    Value: int
+}
 
 type DrawnNumbers = DrawnNumber list
 
-type RowToWin =
-    { MaxDrownNumber: DrawnNumber
-      Numbers: DrawnNumber list }
+type RowToWin = {
+    MaxDrownNumber: DrawnNumber
+    Numbers: DrawnNumber list
+}
 
-type Grid =
-    { DrawnNumbers: DrawnNumbers
-      LowestDrownNumber: DrawnNumber
-      RowsToWins: RowToWin list }
+type Grid = {
+    DrawnNumbers: DrawnNumbers
+    LowestDrownNumber: DrawnNumber
+    RowsToWins: RowToWin list
+}
 
 type Grids = Grid list
-
 
 module Solution =
 
@@ -30,11 +34,9 @@ module Solution =
         let columns =
             seq { for y in 0 .. (gridSize - 1) -> [| for x in 0 .. (gridSize - 1) -> (x, y) |] }
 
-        let diag1 =
-            [| for x in 0 .. (gridSize - 1) -> (x, x) |]
+        let diag1 = [| for x in 0 .. (gridSize - 1) -> (x, x) |]
 
-        let diag2 =
-            [| for x in (gridSize - 1) .. -1 .. 0 -> (x, x) |]
+        let diag2 = [| for x in (gridSize - 1) .. -1 .. 0 -> (x, x) |]
 
         seq {
             yield! rows
@@ -44,53 +46,48 @@ module Solution =
         }
         |> Seq.toArray
 
-
     let mapGrids (drawnNumbers: Map<int, DrawnNumber>) (rawGrids: int list list list) : Grids =
 
-        let mapNumbers rawGrid (numbers: (int * int) []) : RowToWin =
+        let mapNumbers rawGrid (numbers: (int * int)[]) : RowToWin =
             let numbers =
                 numbers
                 |> Seq.map (fun (x, y) ->
                     let value = rawGrid |> List.item x |> List.item y
-                    drawnNumbers |> Map.find value)
+                    drawnNumbers |> Map.find value
+                )
                 |> Seq.toList
 
-            let max =
-                numbers
-                |> Seq.sortByDescending (fun x -> x.Position)
-                |> Seq.head
+            let max = numbers |> Seq.sortByDescending (fun x -> x.Position) |> Seq.head
 
-            { MaxDrownNumber = max
-              Numbers = numbers }
+            {
+                MaxDrownNumber = max
+                Numbers = numbers
+            }
 
         let mapRows (rawGrid: int list list) : RowToWin list =
-            winningPositions
-            |> Seq.map (mapNumbers rawGrid)
-            |> Seq.toList
+            winningPositions |> Seq.map (mapNumbers rawGrid) |> Seq.toList
 
         let mapGrid (rawGrid: int list list) : Grid =
 
             let drawnNumbers =
-                rawGrid
-                |> List.concat
-                |> List.map (fun x -> drawnNumbers |> Map.find x)
+                rawGrid |> List.concat |> List.map (fun x -> drawnNumbers |> Map.find x)
 
             let rowsToWins = rawGrid |> mapRows
 
             let maxDrownNumber =
-                rowsToWins
-                |> Seq.sortBy (fun r -> r.MaxDrownNumber.Position)
-                |> Seq.head
+                rowsToWins |> Seq.sortBy (fun r -> r.MaxDrownNumber.Position) |> Seq.head
 
-            { DrawnNumbers = drawnNumbers
-              LowestDrownNumber = maxDrownNumber.MaxDrownNumber
-              RowsToWins = rowsToWins }
+            {
+                DrawnNumbers = drawnNumbers
+                LowestDrownNumber = maxDrownNumber.MaxDrownNumber
+                RowsToWins = rowsToWins
+            }
 
         rawGrids |> List.map mapGrid
 
     let transformInput (lines: string list) : Grids =
 
-        let drawnNumbersAsText, allGrids = lines |> List.tryPop |> Option.get
+        let drawnNumbersAsText, allGrids = lines |> List.pop
 
         let drawnNumbers =
             drawnNumbersAsText
@@ -98,8 +95,11 @@ module Solution =
             |> Array.map int
             |> Array.mapi (fun index drawnNumber ->
                 (drawnNumber,
-                 { Position = index
-                   Value = drawnNumber }))
+                 {
+                     Position = index
+                     Value = drawnNumber
+                 })
+            )
             |> Map.ofSeq
 
         allGrids
@@ -111,7 +111,9 @@ module Solution =
                 line
                 |> Seq.chunkBySize 3
                 |> Seq.map (fun chars -> new string (chars) |> int)
-                |> Seq.toList))
+                |> Seq.toList
+            )
+        )
         |> (mapGrids drawnNumbers)
 
     type UpdateGridResult =
@@ -122,9 +124,7 @@ module Solution =
         let grids = transformInput lines
 
         let winningGrid =
-            grids
-            |> seqSort (fun g -> g.LowestDrownNumber.Position)
-            |> Seq.head
+            grids |> seqSort (fun g -> g.LowestDrownNumber.Position) |> Seq.head
 
         let winningNumber = winningGrid.LowestDrownNumber
 
@@ -132,8 +132,7 @@ module Solution =
             winningGrid.DrawnNumbers
             |> List.partition (fun drawnNumber -> drawnNumber.Position <= winningNumber.Position)
 
-        let _, b =
-            split |> Tuple.map (List.sumBy (fun x -> x.Value))
+        let _, b = split |> Tuple.map (List.sumBy (fun x -> x.Value))
 
         winningNumber.Value * b
 

@@ -6,10 +6,7 @@ open AdventOfCode2021.Common
 module Solution =
     let calc f lines =
 
-        let data =
-            lines
-            |> Seq.map (Seq.map ctoi >> Seq.toArray)
-            |> Seq.toArray
+        let data = lines |> Seq.map (Seq.map ctoi >> Seq.toArray) |> Seq.toArray
 
         let mod10 i = i % 10
 
@@ -18,18 +15,18 @@ module Solution =
             |> Seq.map ((Array.map (mod10 >> itoc)) >> String)
             |> String.join Environment.NewLine
 
-        let max =
-            (Array.length data, Array.length data.[0])
+        let max = (Array.length data, Array.length data.[0])
 
-        let neighbours =
-            [| 0, 1
-               1, 1
-               1, 0
-               1, -1
-               0, -1
-               -1, -1
-               -1, 0
-               -1, 1 |]
+        let neighbours = [|
+            0, 1
+            1, 1
+            1, 0
+            1, -1
+            0, -1
+            -1, -1
+            -1, 0
+            -1, 1
+        |]
 
         let getNeighboursToIncrement position =
             let add max v inc =
@@ -39,8 +36,7 @@ module Solution =
                 else if n >= max then None
                 else Some n
 
-            neighbours
-            |> Array.choose (Tuple.map3 add max position >> Option.unfold)
+            neighbours |> Array.choose (Tuple.map3 add max position >> Option.unfold)
 
         let rec incrementOctopus iteration (y, x) =
             let v = data.[y].[x]
@@ -56,24 +52,18 @@ module Solution =
             data.[y].[x] <- newValue
 
             if shouldIncrementNeighbours then
-                getNeighboursToIncrement (y, x)
-                |> Seq.iter (incrementOctopus iteration)
+                getNeighboursToIncrement (y, x) |> Seq.iter (incrementOctopus iteration)
 
         let incrementOctopuses iteration =
             data
-            |> Array.iteri (fun y row ->
-                row
-                |> Array.iteri (fun x _ -> incrementOctopus iteration (y, x)))
+            |> Array.iteri (fun y row -> row |> Array.iteri (fun x _ -> incrementOctopus iteration (y, x)))
 
             if iteration < 10 || iteration % 10 = 0 then
                 Console.WriteLine($"After step {iteration}:")
                 data |> displayData |> Console.WriteLine
                 Console.WriteLine()
 
-            data
-            |> Seq.concat
-            |> Seq.map mod10
-            |> Seq.count (fun v -> v = 0)
+            data |> Seq.concat |> Seq.map mod10 |> Seq.count (fun v -> v = 0)
 
         Console.WriteLine("Before any steps:")
         data |> displayData |> Console.WriteLine
@@ -81,13 +71,10 @@ module Solution =
 
         f incrementOctopuses
 
-
     let part1 lines =
 
         let getResult incOctopuses =
-            [| 1 .. 100 |]
-            |> Array.map incOctopuses
-            |> Array.sum
+            [| 1..100 |] |> Array.map incOctopuses |> Array.sum
 
         calc getResult lines
 
@@ -97,10 +84,7 @@ module Solution =
 
         let getResult incOctopuses =
             let rec xxx i =
-                if (incOctopuses i) = targetLen then
-                    i
-                else
-                    xxx (i + 1)
+                if (incOctopuses i) = targetLen then i else xxx (i + 1)
 
             xxx 1
 

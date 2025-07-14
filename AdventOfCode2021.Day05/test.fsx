@@ -19,7 +19,6 @@
 //     let generator (state: int * int) : Option<(int * int) * (int * int)> =
 //         let x = mapT3 inc s i e
 
-
 //         Some(x, state)
 
 //     Seq.unfold generator s
@@ -29,7 +28,6 @@
 //     (forTupple (0, 0) (5, 5) (1, 1)
 //      |> Seq.take 100
 //      |> Seq.toList)
-
 
 // let max = 6
 
@@ -41,15 +39,12 @@
 
 // List.unfold generator 1
 
-
 let start = (0, 5)
 let max = (5, 0)
 let inc = (1, -1)
 
-
 module Tuple =
     let map2 f a b = (f (fst a) (fst b), f (snd a) (snd b))
-
 
 let generator2 state =
     let stateA, stateB = state

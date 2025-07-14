@@ -34,12 +34,15 @@ module Solution =
                 |> Array.map (fun ((l, r), count) ->
                     match (mappings |> Map.tryFind (l, r)) with
                     | None -> failwith "all mapping not exists ??"
-                    | Some n -> [| ((l, n), count); ((n, r), count) |])
+                    | Some n -> [|
+                        ((l, n), count)
+                        ((n, r), count)
+                      |]
+                )
                 |> Array.concat
                 |> Array.groupByFstAndMap Array.sum
 
             doInc newConfig mappings (incCount - 1)
-
 
     let calc steps inputs =
         let initialConfig, mappings =
@@ -52,17 +55,16 @@ module Solution =
 
         let mappings = mappings |> Map.ofSeq
 
-        let currentConfig =
-            initialConfig
-            |> Seq.pairwise
-            |> Seq.countBy64 id
-            |> Seq.toArray
+        let currentConfig = initialConfig |> Seq.pairwise |> Seq.countBy64 id |> Seq.toArray
 
         let incremented = doInc currentConfig mappings steps
 
         let countByChar =
             incremented
-            |> Array.map (fun ((l, r), count) -> [| (l, count); (r, count) |])
+            |> Array.map (fun ((l, r), count) -> [|
+                (l, count)
+                (r, count)
+            |])
             |> Array.concat
             |> Array.groupByFstAndMap Array.sum
             |> Array.map (fun (chr, cnt) ->
@@ -72,14 +74,14 @@ module Solution =
                     else
                         0L
 
-                (chr, (cnt + countCorrector) / 2L))
+                (chr, (cnt + countCorrector) / 2L)
+            )
             |> Array.sortByDescending snd
 
         let _, max = Array.head countByChar
         let _, min = Array.last countByChar
 
         (max - min)
-
 
     let part1 = calc 10
     let part2 = calc 40

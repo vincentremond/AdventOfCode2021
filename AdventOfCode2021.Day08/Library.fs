@@ -6,9 +6,10 @@ open AdventOfCode2021.Common
 
 type Wiring = char list
 
-type ParseResult =
-    { Wirings: Wiring list
-      Displays: Wiring list }
+type ParseResult = {
+    Wirings: Wiring list
+    Displays: Wiring list
+}
 
 module Parser =
     open FSharp.Text.RegexProvider
@@ -24,47 +25,52 @@ module Parser =
         |> Seq.toList
 
     let mapCaptures c =
-        c
-        |> Seq.map (fun (c: Capture) -> c.Value)
-        |> Seq.map mapWiring
-        |> Seq.toList
+        c |> Seq.map (fun (c: Capture) -> c.Value) |> Seq.map mapWiring |> Seq.toList
 
     let parseInput lines =
-
 
         lines
         |> Seq.map (fun l ->
             let ``match`` = l |> LineRegex().TypedMatch
 
-            { Wirings = ``match``.Wiring.Captures |> mapCaptures
-              Displays = ``match``.Display.Captures |> mapCaptures })
+            {
+                Wirings = ``match``.Wiring.Captures |> mapCaptures
+                Displays = ``match``.Display.Captures |> mapCaptures
+            }
+        )
         |> Seq.toList
 
 module Solution =
 
     let part1 lines =
 
-        let uniqueDigitLengths = [ 2; 3; 4; 7 ]
+        let uniqueDigitLengths = [
+            2
+            3
+            4
+            7
+        ]
 
         lines
         |> Parser.parseInput
         |> Seq.map (fun parseResult ->
             parseResult.Displays
-            |> Seq.count (fun (d: Wiring) -> List.contains (List.length d) uniqueDigitLengths))
+            |> Seq.count (fun (d: Wiring) -> List.contains (List.length d) uniqueDigitLengths)
+        )
         |> Seq.sum
 
     let part2 lines =
 
         let barCountMapping =
             [|
-               //8, 'a'
-               6, 'b'
-               //8, 'c'
-               //7, 'd'
-               4, 'e'
-               9, 'f'
-               //7, 'g'
-               |]
+                //8, 'a'
+                6, 'b'
+                //8, 'c'
+                //7, 'd'
+                4, 'e'
+                9, 'f'
+            //7, 'g'
+            |]
             |> Map.ofSeq
 
         let solveOne xx =
@@ -76,7 +82,8 @@ module Solution =
                 |> Seq.choose (fun c ->
                     match c |> Map.tryFindI charMap with
                     | Some _ -> None
-                    | None -> Some c)
+                    | None -> Some c
+                )
                 |> Seq.exactlyOne
                 |> Map.addByKey charMap charToDeduce
 
@@ -92,16 +99,18 @@ module Solution =
             |> deduceFromSize 7 'g'
 
         let digits =
-            [| @"abcefg" (*     0  |              |  *)
-               @"cf" (*         1  |    A A A     |  *)
-               @"acdeg" (*      2  |  B       C   |  *)
-               @"acdfg" (*      3  |  B       C   |  *)
-               @"bcdf" (*       4  |  B       C   |  *)
-               @"abdfg" (*      5  |    D D D     |  *)
-               @"abdefg" (*     6  |  E       F   |  *)
-               @"acf" (*        7  |  E       F   |  *)
-               @"abcdefg" (*    8  |  E       F   |  *)
-               @"abcdfg" (*     9  |    G G G     |  *)  |]
+            [|
+                @"abcefg" (*     0  |              |  *)
+                @"cf" (*         1  |    A A A     |  *)
+                @"acdeg" (*      2  |  B       C   |  *)
+                @"acdfg" (*      3  |  B       C   |  *)
+                @"bcdf" (*       4  |  B       C   |  *)
+                @"abdfg" (*      5  |    D D D     |  *)
+                @"abdefg" (*     6  |  E       F   |  *)
+                @"acf" (*        7  |  E       F   |  *)
+                @"abcdefg" (*    8  |  E       F   |  *)
+                @"abcdfg" (*     9  |    G G G     |  *)
+            |]
             |> Array.mapi (Tuple.mk)
             |> Array.map Tuple.rev
             |> Map.ofSeq
@@ -115,11 +124,7 @@ module Solution =
         let getResult (parseResult: ParseResult, mapping: Map<char, char>) : int =
             let map =
                 parseResult.Displays
-                |> List.map (fun display ->
-                    display
-                    |> List.map (mapping |> Map.findI)
-                    |> List.sort
-                    |> String.ofList)
+                |> List.map (fun display -> display |> List.map (mapping |> Map.findI) |> List.sort |> String.ofList)
 
             map
             |> List.map (digits |> Map.findI)

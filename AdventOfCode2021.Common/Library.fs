@@ -23,7 +23,8 @@ module Option =
             (fun item acc ->
                 match item, acc with
                 | Some value, Some list -> Some(value :: list)
-                | _ -> None)
+                | _ -> None
+            )
             list
             (Some [])
 
@@ -32,10 +33,10 @@ module Option =
         | Some a, Some b -> Some(a, b)
         | _ -> None
 
-    let unwrap (t: ('a * 'b) option): 'a option * 'b option =
+    let unwrap (t: ('a * 'b) option) : 'a option * 'b option =
         match t with
-        | Some (a, b) -> (Some a, Some b)
-        | _ -> (None,None)
+        | Some(a, b) -> (Some a, Some b)
+        | _ -> (None, None)
 
     let merge (merger: 'a -> 'a -> 'a) (a1: 'a option, a2: 'a option) =
         match a1, a2 with
@@ -72,42 +73,40 @@ module Seq =
                 if count >= length then
                     None
                 else
-                    Some(current, (current + 1, count + 1)))
+                    Some(current, (current + 1, count + 1))
+            )
             (start, 0)
 
     let count f s = s |> Seq.filter f |> Seq.length
 
     let groupByMap groupBy map seq =
-        seq
-        |> Seq.groupBy groupBy
-        |> Seq.map (Tuple.mapSnd map)
+        seq |> Seq.groupBy groupBy |> Seq.map (Tuple.mapSnd map)
 
     let groupByFst seq =
-        seq
-        |> Seq.groupBy fst
-        |> Seq.map (fun (a, b) -> (a, b |> Seq.map snd))
+        seq |> Seq.groupBy fst |> Seq.map (fun (a, b) -> (a, b |> Seq.map snd))
 
 [<RequireQualifiedAccess>]
 module List =
     let tryPop l =
         match l with
-        | head :: tail -> Some(head), tail
-        | [] -> None, []
+        | head :: tail -> Some(head, tail)
+        | [] -> None
 
     let pop l = (l |> List.head, l |> List.tail)
 
-    let range start length = [ start .. 1 .. (start + length - 1) ]
+    let maybePop l =
+        match l with
+        | head :: tail -> Some(head), tail
+        | [] -> None, []
+
+    let range start length = [ start..1 .. (start + length - 1) ]
 
     let permutations (list: 'a list) : 'a list list =
         // src: https://stackoverflow.com/questions/1526046/f-permutations
         let rec distribute e =
             function
             | [] -> [ [ e ] ]
-            | x :: xs' as xs ->
-                (e :: xs)
-                :: [
-                    for xs in distribute e xs' -> x :: xs
-                ]
+            | x :: xs' as xs -> (e :: xs) :: [ for xs in distribute e xs' -> x :: xs ]
 
         let rec permute =
             function
@@ -118,13 +117,11 @@ module List =
 
     let itemR arr idx = List.item idx arr
 
-    let product =
-        List.fold (fun state item -> item * state) 1UL
+    let product = List.fold (fun state item -> item * state) 1UL
 
 [<RequireQualifiedAccess>]
 module Array =
-    let range start length =
-        [| start .. 1 .. (start + length - 1) |]
+    let range start length = [| start..1 .. (start + length - 1) |]
 
     let permutations (arr: 'a array) : 'a array array =
         arr
@@ -141,15 +138,12 @@ module Array =
         nArr
 
     let groupByFst arr =
-        arr
-        |> Array.groupBy fst
-        |> Array.map (fun (a, b) -> (a, b |> Array.map snd))
+        arr |> Array.groupBy fst |> Array.map (fun (a, b) -> (a, b |> Array.map snd))
 
     let groupByFstAndMap (map: 'b array -> 'c) (arr: ('a * 'b) array) : ('a * 'c) array =
         arr
         |> Array.groupBy fst
         |> Array.map (fun (a, arr) -> (a, arr |> (Array.map snd >> map)))
-
 
 [<RequireQualifiedAccess>]
 module Map =
@@ -190,8 +184,4 @@ module Direction =
             else if n > max then None
             else Some n
 
-        directions
-        |> Seq.choose (
-            Tuple.map3 mapDir max startingPoint
-            >> Option.unfold
-        )
+        directions |> Seq.choose (Tuple.map3 mapDir max startingPoint >> Option.unfold)

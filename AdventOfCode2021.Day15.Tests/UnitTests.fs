@@ -3,6 +3,7 @@
 open System.IO
 open AdventOfCode2021.Common
 open AdventOfCode2021.Day15
+open FsUnitTyped
 open NUnit.Framework
 open Swensen.Unquote
 
@@ -25,14 +26,20 @@ let getSample () =
 let getInputs () = "inputs.txt" |> File.ReadAllLines
 
 [<Test>]
-let ``1-1 Test part1 with sample`` () = (40 , (Solution.part1 (getSample ()))) |> Assert.AreEqual
-[<Test>]
-let ``1-2 Test part1 with inputs`` () = (755 , (Solution.part1 (getInputs ()))) |> Assert.AreEqual
+let ``1-1 Test part1 with sample`` () =
+    (40, (Solution.part1 (getSample ()))) ||> shouldEqual
 
 [<Test>]
-let ``2-1 Test part1 with sample`` () = (315 , (Solution.part2 (getSample ()))) |> Assert.AreEqual
+let ``1-2 Test part1 with inputs`` () =
+    (755, (Solution.part1 (getInputs ()))) ||> shouldEqual
+
 [<Test>]
-let ``2-2 Test part1 with inputs`` () = (3016 , (Solution.part2 (getInputs ()))) |> Assert.AreEqual
+let ``2-1 Test part1 with sample`` () =
+    (315, (Solution.part2 (getSample ()))) ||> shouldEqual
+
+[<Test>]
+let ``2-2 Test part1 with inputs`` () =
+    (3016, (Solution.part2 (getInputs ()))) ||> shouldEqual
 
 [<EntryPoint>]
 let main _ = 0

@@ -6,17 +6,12 @@ open Nustache.Core
 open System.IO
 open System.Text
 
-let day =
-    fsi.CommandLineArgs
-    |> Array.tail
-    |> Array.exactlyOne
-    |> int
+let day = fsi.CommandLineArgs |> Array.tail |> Array.exactlyOne |> int
 
 let template = {| day = day |}
 
 let createFolder nameTemplate =
-    let name =
-        Render.StringToString(nameTemplate, template)
+    let name = Render.StringToString(nameTemplate, template)
 
     printfn $"📂 {name}"
 
@@ -24,19 +19,16 @@ let createFolder nameTemplate =
         Directory.CreateDirectory(name) |> ignore
 
 let addFile (nameTemplate: string) (contentTemplate: string) =
-    let name =
-        Render.StringToString(nameTemplate, template)
+    let name = Render.StringToString(nameTemplate, template)
 
     printfn $"📃 {name}"
 
-    let content =
-        Render.StringToString(contentTemplate.TrimStart(), template)
+    let content = Render.StringToString(contentTemplate.TrimStart(), template)
 
     File.WriteAllText(name, content, new UTF8Encoding(encoderShouldEmitUTF8Identifier = true))
 
 let exec command argumentsTemplate =
-    let arguments =
-        Render.StringToString(argumentsTemplate, template)
+    let arguments = Render.StringToString(argumentsTemplate, template)
 
     printfn $"📦 {command} {arguments}"
 
@@ -143,14 +135,14 @@ TODO
 let getInputs () = \"inputs.txt\" |> File.ReadAllLines
 
 [<Test>]
-let ``1-1 Test part1 with sample`` () = (-1 , (Solution.part1 (getSample ()))) |> Assert.AreEqual
+let ``1-1 Test part1 with sample`` () = (-1 , (Solution.part1 (getSample ())))  ||> shouldEqual
 [<Test>]
-let ``1-2 Test part1 with inputs`` () = (-1 , (Solution.part1 (getInputs ()))) |> Assert.AreEqual
+let ``1-2 Test part1 with inputs`` () = (-1 , (Solution.part1 (getInputs ())))  ||> shouldEqual
 
 [<Test>]
-let ``2-1 Test part1 with sample`` () = (-1 , (Solution.part2 (getSample ()))) |> Assert.AreEqual
+let ``2-1 Test part1 with sample`` () = (-1 , (Solution.part2 (getSample ())))  ||> shouldEqual
 [<Test>]
-let ``2-2 Test part1 with inputs`` () = (-1 , (Solution.part2 (getInputs ()))) |> Assert.AreEqual
+let ``2-2 Test part1 with inputs`` () = (-1 , (Solution.part2 (getInputs ())))  ||> shouldEqual
 
 [<EntryPoint>]
 let main _ = 0

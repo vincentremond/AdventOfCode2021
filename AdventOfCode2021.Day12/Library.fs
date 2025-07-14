@@ -34,14 +34,12 @@ module Solution =
         let readLine l =
             let r = l |> (LineParser().TypedMatch)
 
-            [| (toCave r.From.Value, toCave r.To.Value)
-               (toCave r.To.Value, toCave r.From.Value) |]
+            [|
+                (toCave r.From.Value, toCave r.To.Value)
+                (toCave r.To.Value, toCave r.From.Value)
+            |]
 
-        let caves =
-            lines
-            |> Array.collect readLine
-            |> Array.groupByFst
-            |> Map.ofArray
+        let caves = lines |> Array.collect readLine |> Array.groupByFst |> Map.ofArray
 
         let displayPath path =
             path
@@ -54,7 +52,8 @@ module Solution =
                     | SmallCave s -> s
                     | LargeCave l -> l
 
-                printf "%s," itemValue)
+                printf "%s," itemValue
+            )
 
             printfn "End"
 
@@ -80,14 +79,14 @@ module Solution =
                     1
                 | LargeCave _ -> explore targetCave exploredSmallCaves jokerUsed newPath
                 | SmallCave smallCaveId ->
-                    let explored =
-                        Set.contains smallCaveId exploredSmallCaves
+                    let explored = Set.contains smallCaveId exploredSmallCaves
 
                     match explored, jokerUsed, canUseJoker with
                     | true, false, true -> explore targetCave exploredSmallCaves true newPath
                     | true, true, true -> 0
                     | true, _, false -> 0
-                    | false, _, _ -> explore targetCave exploredSmallCaves jokerUsed newPath)
+                    | false, _, _ -> explore targetCave exploredSmallCaves jokerUsed newPath
+            )
 
         explore Start Set.empty false []
 

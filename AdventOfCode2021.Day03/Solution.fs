@@ -12,7 +12,9 @@ module Solution =
                     match c with
                     | '0' -> -1
                     | '1' -> 1
-                    | c -> failwith $"Invalid char {c}"))
+                    | c -> failwith $"Invalid char {c}"
+                )
+            )
             |> Seq.transpose
             |> Seq.map Seq.sum
             |> Seq.rev
@@ -30,8 +32,6 @@ module Solution =
 
     let getResultPart2 (inputs: string seq) =
 
-
-
         let data =
             inputs
             |> Seq.map (fun line ->
@@ -40,16 +40,17 @@ module Solution =
                     match c with
                     | '0' -> -1
                     | '1' -> 1
-                    | c -> failwith $"Invalid char {c}")
-                |> Seq.toList)
+                    | c -> failwith $"Invalid char {c}"
+                )
+                |> Seq.toList
+            )
             |> Seq.toList
 
         let rec calc result (d: int list list) operator =
             if List.length d = 0 then
                 failwith "error"
 
-            let data =
-                d |> (List.map List.tryPop) |> Option.ofList
+            let data = d |> (List.map List.tryPop) |> Option.ofList
 
             let fix v =
                 match v with
@@ -71,15 +72,12 @@ module Solution =
                         else
                             (0, (fun (v, _) -> v = -1))
 
-                let nextValues =
-                    (values |> List.filter filter |> List.map snd)
+                let nextValues = (values |> List.filter filter |> List.map snd)
 
                 calc (valueToAdd :: result) nextValues operator
 
         let toInt (lst: int list) =
-            lst
-            |> Seq.mapi (fun index item -> item <<< index)
-            |> Seq.sum
+            lst |> Seq.mapi (fun index item -> item <<< index) |> Seq.sum
 
         let oxygen = calc [] data (>=) |> toInt
         let co2 = calc [] data (<) |> toInt

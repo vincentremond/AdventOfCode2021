@@ -15,10 +15,14 @@ let part2 (lines: string array) =
         | '9' -> Peak
         | _ -> Unassigned
 
-    let data =
-        lines |> Array.map (Seq.map map >> Seq.toArray)
+    let data = lines |> Array.map (Seq.map map >> Seq.toArray)
 
-    let directions = [| 0, 1; 1, 0; -1, 0; 0, -1 |]
+    let directions = [|
+        0, 1
+        1, 0
+        -1, 0
+        0, -1
+    |]
 
     let validateIndex max index = index < max && index >= 0
 
@@ -35,7 +39,8 @@ let part2 (lines: string array) =
         |> Seq.filter (fun (y, x) ->
             match data.[y].[x] with
             | Unassigned -> true
-            | _ -> false)
+            | _ -> false
+        )
         |> Seq.iter (fun (y, x) -> exploreBasin y x row id)
 
     data
@@ -45,7 +50,9 @@ let part2 (lines: string array) =
             match value with
             | Peak
             | Basin _ -> ()
-            | Unassigned -> exploreBasin y x row (y, x)))
+            | Unassigned -> exploreBasin y x row (y, x)
+        )
+    )
 
     data
     |> Array.concat
@@ -53,7 +60,8 @@ let part2 (lines: string array) =
         (fun b ->
             match b with
             | Basin id -> Some id
-            | _ -> None)
+            | _ -> None
+        )
     )
     |> Array.countBy id
     |> Array.sortByDescending snd
