@@ -46,7 +46,6 @@ addFile
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors>25</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
@@ -86,7 +85,6 @@ addFile
     <TargetFramework>net6.0</TargetFramework>
     <IsPackable>false</IsPackable>
     <GenerateProgramFile>false</GenerateProgramFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors>25</WarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
