@@ -1,0 +1,48 @@
+<Solution>
+  <Folder Name="/.build/">
+    <File Path="paket.dependencies" />
+    <File Path="paket.lock" />
+    <File Path="StartNewDay.fsx" />
+    <File Path="StartNewDay.ps1" />
+  </Folder>
+  <Folder Name="/PreviousDays/">
+    <Project Path="AdventOfCode2021.Day01.Tests/AdventOfCode2021.Day01.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day01/AdventOfCode2021.Day01.fsproj" />
+    <Project Path="AdventOfCode2021.Day02.Tests/AdventOfCode2021.Day02.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day02/AdventOfCode2021.Day02.fsproj" />
+    <Project Path="AdventOfCode2021.Day03.Tests/AdventOfCode2021.Day03.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day03/AdventOfCode2021.Day03.fsproj" />
+    <Project Path="AdventOfCode2021.Day04.Tests/AdventOfCode2021.Day04.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day04/AdventOfCode2021.Day04.fsproj" />
+    <Project Path="AdventOfCode2021.Day05.Tests/AdventOfCode2021.Day05.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day05/AdventOfCode2021.Day05.fsproj" />
+    <Project Path="AdventOfCode2021.Day06.Tests/AdventOfCode2021.Day06.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day06/AdventOfCode2021.Day06.fsproj" />
+    <Project Path="AdventOfCode2021.Day07.Tests/AdventOfCode2021.Day07.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day07/AdventOfCode2021.Day07.fsproj" />
+    <Project Path="AdventOfCode2021.Day08.Tests/AdventOfCode2021.Day08.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day08/AdventOfCode2021.Day08.fsproj" />
+    <Project Path="AdventOfCode2021.Day09.Tests/AdventOfCode2021.Day09.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day09/AdventOfCode2021.Day09.fsproj" />
+    <Project Path="AdventOfCode2021.Day10.Tests/AdventOfCode2021.Day10.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day10/AdventOfCode2021.Day10.fsproj" />
+    <Project Path="AdventOfCode2021.Day11.Tests/AdventOfCode2021.Day11.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day11/AdventOfCode2021.Day11.fsproj" />
+    <Project Path="AdventOfCode2021.Day12.Tests/AdventOfCode2021.Day12.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day12/AdventOfCode2021.Day12.fsproj" />
+    <Project Path="AdventOfCode2021.Day13.Tests/AdventOfCode2021.Day13.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day13/AdventOfCode2021.Day13.fsproj" />
+    <Project Path="AdventOfCode2021.Day14.Tests/AdventOfCode2021.Day14.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day14/AdventOfCode2021.Day14.fsproj" />
+    <Project Path="AdventOfCode2021.Day15.Tests/AdventOfCode2021.Day15.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day15/AdventOfCode2021.Day15.fsproj" />
+    <Project Path="AdventOfCode2021.Day16.Tests/AdventOfCode2021.Day16.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day16/AdventOfCode2021.Day16.fsproj" />
+    <Project Path="AdventOfCode2021.Day17.Tests/AdventOfCode2021.Day17.Tests.fsproj" />
+    <Project Path="AdventOfCode2021.Day17/AdventOfCode2021.Day17.fsproj" />
+  </Folder>
+  <Project Path="AdventOfCode2021.Common.Tests/AdventOfCode2021.Common.Tests.fsproj" />
+  <Project Path="AdventOfCode2021.Common/AdventOfCode2021.Common.fsproj" />
+  <Project Path="AdventOfCode2021.Day18.Tests/AdventOfCode2021.Day18.Tests.fsproj" />
+  <Project Path="AdventOfCode2021.Day18/AdventOfCode2021.Day18.fsproj" />
+</Solution>
