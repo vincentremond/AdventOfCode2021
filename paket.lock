@@ -2,16 +2,16 @@ STORAGE: NONE
 RESTRICTION: == net10.0
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    Azure.Core (1.59)
-      Microsoft.Bcl.AsyncInterfaces (>= 10.0.3)
-      Microsoft.Extensions.Configuration.Abstractions (>= 10.0.3)
-      Microsoft.Extensions.Hosting.Abstractions (>= 10.0.3)
+    Azure.Core (1.60)
+      Microsoft.Bcl.AsyncInterfaces (>= 10.0.9)
+      Microsoft.Extensions.Configuration.Abstractions (>= 10.0.9)
+      Microsoft.Extensions.Hosting.Abstractions (>= 10.0.9)
       Microsoft.Identity.Client (>= 4.84.2)
       Microsoft.Identity.Client.Extensions.Msal (>= 4.84.2)
       System.ClientModel (>= 1.14)
-      System.Memory.Data (>= 10.0.3)
-    Azure.Monitor.OpenTelemetry.Exporter (1.8.1)
-      Azure.Core (>= 1.56)
+      System.Memory.Data (>= 10.0.9)
+    Azure.Monitor.OpenTelemetry.Exporter (1.8.2)
+      Azure.Core (>= 1.59)
       OpenTelemetry.Extensions.Hosting (>= 1.15.3)
       OpenTelemetry.PersistentStorage.FileSystem (>= 1.0.3)
     coverlet.collector (10.0.1)
